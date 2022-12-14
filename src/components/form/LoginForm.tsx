@@ -1,6 +1,13 @@
 import { ReactComponent as Logo } from "../../assets/logo.svg";
-import { React, useState } from "react";
-import { Button, Link, TextField, ThemeProvider } from "@mui/material";
+import { useState } from "react";
+import {
+	Alert,
+	Button,
+	Link,
+	Snackbar,
+	TextField,
+	ThemeProvider,
+} from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import MailTwoToneIcon from "@mui/icons-material/MailTwoTone";
 import LockTwoToneIcon from "@mui/icons-material/LockTwoTone";
@@ -10,8 +17,6 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const FormContainer = styled.div`
 	width: 433px;
@@ -23,6 +28,7 @@ const FormContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	gap: 56px;
+	z-index: 1;
 	form {
 		display: flex;
 		flex-direction: column;
@@ -53,6 +59,7 @@ const validationSchema = yup.object({
 
 const LoginForm = () => {
 	const [err, setErr] = useState("");
+	const [open, setOpen] = useState(false);
 	const navigate = useNavigate();
 
 	const url = "http://localhost:3000/login";
@@ -69,10 +76,10 @@ const LoginForm = () => {
 				localStorage.setItem("email", email);
 				navigate("/home");
 				return true;
-			} else {
-				toast.error("Login ou senha inválido!");
-				return false;
 			}
+			setErr("Login ou senha inválido!");
+			setOpen(true);
+			return false;
 		} catch (error) {
 			return false;
 		}
@@ -91,11 +98,25 @@ const LoginForm = () => {
 	});
 	return (
 		<>
+			<Snackbar
+				open={open}
+				autoHideDuration={4000}
+				onClose={() => {
+					setOpen(false);
+				}}
+				anchorOrigin={{ vertical: "top", horizontal: "center" }}
+			>
+				<Alert severity="error" sx={{ width: "100%" }}>
+					{err}
+				</Alert>
+			</Snackbar>
 			<FormContainer
 				onSubmit={(e) => {
 					e.preventDefault();
-					if (formik.values.email.length < 1 || formik.values.password.length < 1)
+					if (formik.values.email.length < 1 || formik.values.password.length < 1) {
 						setErr("Preencha todos os campos!");
+						setOpen(true);
+					}
 					formik.handleSubmit();
 				}}
 			>
@@ -108,9 +129,7 @@ const LoginForm = () => {
 						id="email"
 						value={formik.values.email}
 						onChange={formik.handleChange}
-						style={
-							err === "Preencha todos os campos!" ? { border: "1px solid red" } : {}
-						}
+						style={open ? { border: "1px solid red" } : {}}
 						placeholder={"E-mail"}
 						InputProps={{
 							endAdornment: (
@@ -128,9 +147,7 @@ const LoginForm = () => {
 						value={formik.values.password}
 						onChange={formik.handleChange}
 						onBlur={formik.handleBlur}
-						style={
-							err === "Preencha todos os campos!" ? { border: "1px solid red" } : {}
-						}
+						style={open ? { border: "1px solid red" } : {}}
 						placeholder={"Senha"}
 						InputProps={{
 							endAdornment: (
@@ -158,7 +175,6 @@ const LoginForm = () => {
 						>
 							ENTRAR
 						</Button>
-						<p style={{ color: "red" }}>{err}</p>
 					</ThemeProvider>
 				</form>
 			</FormContainer>
