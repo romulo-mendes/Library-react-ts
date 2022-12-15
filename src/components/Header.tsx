@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import PersonIcon from "@mui/icons-material/Person";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const MainContainer = styled.div`
 	width: 100vw;
@@ -47,18 +47,18 @@ const UserContainer = styled.div`
 	}
 `;
 
-const Header: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-	if (React.isValidElement(children)) {
-		const location = useLocation();
-		if (location.pathname === "/") return <>{children}</>;
-	}
-	const email = localStorage.getItem("email");
+const Header = () => {
 	const [logout, setLogout] = useState(false);
 	const navigate = useNavigate();
+	const email = localStorage.getItem("email");
+
+	useEffect(() => {
+		if (!email) navigate("/login");
+	}, []);
 
 	function userLogout(): void {
 		localStorage.removeItem("email");
-		navigate("/");
+		navigate("/login");
 	}
 	return (
 		<>
@@ -81,7 +81,9 @@ const Header: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 					)}
 				</UserContainer>
 			</HeaderNav>
-			<MainContainer>{children}</MainContainer>
+			<MainContainer>
+				<Outlet />
+			</MainContainer>
 		</>
 	);
 };

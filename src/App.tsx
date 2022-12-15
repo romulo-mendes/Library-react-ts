@@ -1,22 +1,25 @@
-import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./Pages/home";
 import Login from "./Pages/login";
 import Library from "./Pages/library";
+import { mainTheme } from "./styles/ThemeButtons";
+import { ThemeProvider } from "@mui/material";
 
 function App() {
 	return (
 		<>
-			<BrowserRouter>
-				<Header>
+			<ThemeProvider theme={mainTheme}>
+				<BrowserRouter>
 					<Routes>
-						<Route path="/" element={<Login />} />
-						<Route path="/home" element={<Home />} />
-						<Route path="/biblioteca" element={<Library />} />
+						<Route path="/login" element={<Login />} />
+						<Route path="/" element={<Header />}>
+							<Route path="" element={<Home />} />
+							<Route path="biblioteca" element={<Library />} />
+						</Route>
 					</Routes>
-				</Header>
-			</BrowserRouter>
+				</BrowserRouter>
+			</ThemeProvider>
 		</>
 	);
 }

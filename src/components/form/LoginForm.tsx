@@ -1,17 +1,9 @@
 import { ReactComponent as Logo } from "../../assets/logo.svg";
 import { useState } from "react";
-import {
-	Alert,
-	Button,
-	Link,
-	Snackbar,
-	TextField,
-	ThemeProvider,
-} from "@mui/material";
+import { Alert, Button, Link, Snackbar, TextField } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import MailTwoToneIcon from "@mui/icons-material/MailTwoTone";
 import LockTwoToneIcon from "@mui/icons-material/LockTwoTone";
-import { themeButton } from "../../styles/ThemeButtons";
 import styled from "styled-components";
 import * as yup from "yup";
 import { useFormik } from "formik";
@@ -38,6 +30,7 @@ const FormContainer = styled.div`
 	.link {
 		font-weight: 700;
 		font-size: 14px;
+		margin-bottom: 16px;
 	}
 	.inputs-login {
 		border-radius: 4px;
@@ -74,7 +67,7 @@ const LoginForm = () => {
 			if (data.length > 0) {
 				setErr("");
 				localStorage.setItem("email", email);
-				navigate("/home");
+				navigate("/");
 				return true;
 			}
 			setErr("Login ou senha inválido!");
@@ -161,21 +154,10 @@ const LoginForm = () => {
 					<Link className="link" href="" color="inherit">
 						{"Esqueci minha senha"}
 					</Link>
-					<ThemeProvider theme={themeButton}>
-						<Button
-							type="submit"
-							sx={{
-								boxShadow: "0",
-								marginTop: "16px",
-								fontWeight: "700",
-								fontSize: "16px",
-							}}
-							size="large"
-							variant="contained"
-						>
-							ENTRAR
-						</Button>
-					</ThemeProvider>
+
+					<Button type="submit" size="large" variant="contained">
+						ENTRAR
+					</Button>
 				</form>
 			</FormContainer>
 		</>
