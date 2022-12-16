@@ -7,8 +7,8 @@ import LockTwoToneIcon from "@mui/icons-material/LockTwoTone";
 import styled from "styled-components";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { getUser } from "../../api";
 
 const FormContainer = styled.div`
 	width: 433px;
@@ -55,29 +55,6 @@ const LoginForm = () => {
 	const [open, setOpen] = useState(false);
 	const navigate = useNavigate();
 
-	const url = "http://localhost:3000/login";
-
-	const validateLogin = async (
-		email: string,
-		password: string
-	): Promise<boolean> => {
-		try {
-			const response = await axios.get(`${url}?email=${email}&password=${password}`);
-			const { data } = response;
-			if (data.length > 0) {
-				setErr("");
-				localStorage.setItem("email", email);
-				navigate("/");
-				return true;
-			}
-			setErr("Login ou senha inválido!");
-			setOpen(true);
-			return false;
-		} catch (error) {
-			return false;
-		}
-	};
-
 	const formik = useFormik({
 		initialValues: {
 			email: "",
@@ -86,7 +63,15 @@ const LoginForm = () => {
 		validationSchema: validationSchema,
 		onSubmit: (values) => {
 			setErr("");
-			validateLogin(values.email, values.password);
+			getUser(values.email, values.password)
+				.then((response) => {
+					localStorage.setItem("email", response[0].email);
+					navigate("/");
+				})
+				.catch(() => {
+					setErr("Login ou senha inválido!");
+					setOpen(true);
+				});
 		},
 	});
 	return (
@@ -97,7 +82,7 @@ const LoginForm = () => {
 				onClose={() => {
 					setOpen(false);
 				}}
-				anchorOrigin={{ vertical: "top", horizontal: "center" }}
+				anchorOrigin={{ vertical: "top", horizontal: "right" }}
 			>
 				<Alert severity="error" sx={{ width: "100%" }}>
 					{err}
