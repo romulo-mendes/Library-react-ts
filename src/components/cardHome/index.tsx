@@ -1,7 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { CardContainer } from "./styles";
+import { FunctionComponent } from "react";
 
-const CardHome = ({ icon, text, linkTo }) => {
+type CardHomeProps = {
+	icon: JSX.Element;
+	text: string;
+	linkTo: string;
+};
+
+const CardHome: FunctionComponent<CardHomeProps> = ({ icon, text, linkTo }) => {
 	const navigate = useNavigate();
 	function handleClick() {
 		navigate(`/${linkTo}`);

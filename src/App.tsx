@@ -5,6 +5,7 @@ import Login from "./Pages/login";
 import Library from "./Pages/library";
 import { mainTheme } from "./styles/Theme";
 import { ThemeProvider } from "@mui/material";
+import NewBook from "./Pages/newBook";
 
 function App() {
 	return (
@@ -16,6 +17,7 @@ function App() {
 						<Route path="/" element={<Header />}>
 							<Route index element={<Home />} />
 							<Route path="biblioteca" element={<Library />} />
+							<Route path="cadastrar" element={<NewBook />} />
 						</Route>
 					</Routes>
 				</BrowserRouter>

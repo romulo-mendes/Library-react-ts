@@ -32,17 +32,6 @@ const FormContainer = styled.div`
 		font-size: 14px;
 		margin-bottom: 16px;
 	}
-	.inputs-login {
-		border-radius: 4px;
-		background-color: #f1f2f3;
-		border: 1px solid #f1f2f3;
-		& fieldset {
-			border: none;
-		}
-		& input {
-			padding: 14px 16px;
-		}
-	}
 `;
 
 const validationSchema = yup.object({
@@ -109,6 +98,16 @@ const LoginForm = () => {
 						onChange={formik.handleChange}
 						style={open ? { border: "1px solid red" } : {}}
 						placeholder={"E-mail"}
+						sx={{
+							backgroundColor: "#f4f4f4",
+							borderRadius: "4px",
+							"& fieldset": {
+								border: "none",
+							},
+							"& input": {
+								padding: " 14px 16px",
+							},
+						}}
 						InputProps={{
 							endAdornment: (
 								<InputAdornment position="end">
@@ -127,6 +126,16 @@ const LoginForm = () => {
 						onBlur={formik.handleBlur}
 						style={open ? { border: "1px solid red" } : {}}
 						placeholder={"Senha"}
+						sx={{
+							backgroundColor: "#f4f4f4",
+							borderRadius: "4px",
+							"& fieldset": {
+								border: "none",
+							},
+							"& input": {
+								padding: " 14px 16px",
+							},
+						}}
 						InputProps={{
 							endAdornment: (
 								<InputAdornment position="end">
