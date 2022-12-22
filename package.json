@@ -16,6 +16,7 @@
 		"@mui/material": "^5.10.17",
 		"@mui/styled-engine": "^5.10.16",
 		"@mui/styled-engine-sc": "^5.10.16",
+		"@mui/styles": "^5.11.1",
 		"@types/material-ui": "^0.21.12",
 		"axios": "^1.2.1",
 		"formik": "^2.2.9",
@@ -25,6 +26,7 @@
 		"react-dom": "^18.2.0",
 		"react-router-dom": "^6.4.5",
 		"styled-components": "^5.3.6",
+		"uuidv4": "^6.2.13",
 		"vite-plugin-svgr": "^2.2.2",
 		"yup": "^0.32.11"
 	},

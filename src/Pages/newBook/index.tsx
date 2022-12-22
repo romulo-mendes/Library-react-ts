@@ -1,4 +1,4 @@
-import BackTo from "../../components/BackTo";
+import BackTo from "../../components/main/BackTo";
 import styled from "styled-components";
 import BookForm from "../../components/form/BookForm";
 

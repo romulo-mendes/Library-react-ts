@@ -1,8 +1,9 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import React, { createContext, useContext, useMemo, useState } from "react";
+import { getAllBooks } from "../api";
 import { Book } from "../models/book";
 
-enum categoryEnum {
+export enum categoryEnum {
 	TITTLE = "tittle",
 	AUTHOR = "author",
 	GENRE = "genre",
@@ -16,7 +17,7 @@ type BookContextData = {
 	search: string;
 	setSearch: (param: string) => void;
 	category: categoryEnum | undefined;
-	setCategory: (param: categoryEnum) => void;
+	setCategory: (param: categoryEnum | undefined) => void;
 	filteredBooks: Book[] | never[];
 };
 
@@ -28,14 +29,8 @@ function BooksProvider({ children }: BooksProviderProp) {
 	const [books, setBooks] = useState([]);
 
 	React.useEffect(() => {
-		const getBooks = async () => {
-			const response = await fetch("http://localhost:3000/books", {
-				method: "GET",
-			});
-			const json = await response.json();
-			setBooks(json);
-		};
-		getBooks().catch(console.error);
+		const getBooks = async () => setBooks(await getAllBooks());
+		getBooks();
 	}, []);
 	const filteredBooks =
 		search && category

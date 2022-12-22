@@ -1,24 +1,31 @@
-import { Alert, Snackbar, TextField, AlertColor, Button } from "@mui/material";
+import { TextField, Button, Box } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import { useState } from "react";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import useStateBook from "../../hooks/useStateBook";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { postBook } from "../../api";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { DivInput, Form } from "./BookFormStyled";
+
+
 
 const validationSchema = yup.object({
 	author: yup.string().required("Campo Obrigatório"),
 	synopsis: yup.string().required("Campo Obrigatório"),
 	tittle: yup.string().required("Campo Obrigatório"),
 	genre: yup.string().required("Campo Obrigatório"),
-	systemEntryDate: yup.date().required,
+	systemEntryDate: yup.date().required("Campo Obrigatório"),
 });
 
 const BookForm = () => {
-	const [genre, setGenre] = useState("");
 	const [book, setBook] = useStateBook();
+	const [img, setImg] = useState("");
+	const navigate = useNavigate();
 
 	function ImgChange(e: { target: HTMLInputElement }) {
 		const getImg = e.target.files;
@@ -28,72 +35,158 @@ const BookForm = () => {
 			readFile.readAsDataURL(loadingImg);
 			readFile.onloadend = function (loadingImg) {
 				if (loadingImg.target?.DONE) {
-					const imgBase64 = loadingImg.target.result as string;
-					setBook({ ...book, image: imgBase64 });
+					setImg(loadingImg.target.result as string);
 				}
 			};
 		}
 	}
 
-	const handleChange = (event: SelectChangeEvent) => {
-		setGenre(event.target.value as string);
-	};
 	const formik = useFormik({
 		initialValues: {
-			email: "",
-			password: "",
+			author: "",
+			synopsis: "",
+			tittle: "",
+			genre: "",
+			systemEntryDate: "",
+			id: "",
+			image: "",
 		},
 		validationSchema: validationSchema,
-		onSubmit: (values) => {
-			console.log(values);
+		onSubmit: async (values) => {
+			console.log(values.id);
+			if (!values.id) {
+				values.id = self.crypto.randomUUID();
+			}
+			values.image = img;
+			setBook({ ...book, ...values });
 		},
 	});
 
+	useEffect(() => {
+		async function postBookWithValue() {
+			const response = await postBook(book);
+			console.log(response);
+		}
+		if (book.id) {
+			postBookWithValue();
+			navigate(-1);
+		}
+	}, [book]);
+
 	return (
-		<>
-			<form
-				onSubmit={(e) => {
-					e.preventDefault();
-					formik.handleSubmit();
-				}}
-			>
-				<div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-					<div>
-						{book.image && <img src={book.image} />}
-						<input type="file" name="img" id="img" onChange={ImgChange} />
-						<p>Capa</p>
-					</div>
-					<TextField fullWidth label="Título" />
-					<TextField fullWidth label="Sinopse" />
-					<TextField fullWidth label="Autor" />
-					<FormControl>
-						<InputLabel id="select-genre-label">Gênero</InputLabel>
-						<Select
-							labelId="select-genre-label"
-							id="select-genre"
+		<Form
+			onSubmit={(e) => {
+				e.preventDefault();
+				formik.handleSubmit();
+			}}
+		>
+			<div className="input-container">
+				<Box
+					className="input-img"
+					sx={{ border: "2px dashed #ffc501", width: 172, height: 206 }}
+				>
+					{img && <img src={img} />}
+					<input required type="file" name="img" id="img" onChange={ImgChange} />
+					<AddCircleOutlineIcon color="secondary" />
+					<p>Capa</p>
+				</Box>
+				<div className="input-main">
+					<DivInput>
+						<TextField
+							id="tittle"
+							value={formik.values.tittle}
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							error={formik.touched.tittle && Boolean(formik.errors.tittle)}
+							helperText={formik.touched.tittle && formik.errors.tittle}
 							fullWidth
-							label="Gênero"
-							onChange={handleChange}
-							value={genre}
-						>
-							<MenuItem value="Fantasia">Fantasia</MenuItem>
-							<MenuItem value="Ação e Aventura">Ação e Aventura</MenuItem>
-							<MenuItem value="Horror">Horror</MenuItem>
-							<MenuItem value="Romance">Romance</MenuItem>
-						</Select>
-					</FormControl>
-					<TextField
-						fullWidth
-						label="Data de Entrada"
-						type="date"
-						InputLabelProps={{ shrink: true }}
-					/>
-					<Button size="large" variant="contained" fullWidth>
-						Enviar
-					</Button>
+							label="Título"
+						/>
+						<TextField
+							id="synopsis"
+							value={formik.values.synopsis}
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							error={formik.touched.synopsis && Boolean(formik.errors.synopsis)}
+							helperText={formik.touched.synopsis && formik.errors.synopsis}
+							fullWidth
+							label="Sinopse"
+							multiline
+							rows={4.6}
+						/>
+					</DivInput>
+					<DivInput>
+						<TextField
+							id="author"
+							value={formik.values.author}
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							error={formik.touched.author && Boolean(formik.errors.author)}
+							helperText={formik.touched.author && formik.errors.author}
+							fullWidth
+							label="Autor"
+						/>
+						<FormControl fullWidth>
+							<InputLabel id="select-genre-label">Gênero</InputLabel>
+							<Select
+								labelId="select-genre-label"
+								id="genre"
+								name="genre"
+								value={formik.values.genre}
+								onChange={formik.handleChange}
+								fullWidth
+								label="Gênero"
+							>
+								<MenuItem value="Fantasia">Fantasia</MenuItem>
+								<MenuItem value="Ação e Aventura">Ação e Aventura</MenuItem>
+								<MenuItem value="Horror">Horror</MenuItem>
+								<MenuItem value="Romance">Romance</MenuItem>
+							</Select>
+						</FormControl>
+						<TextField
+							fullWidth
+							label="Data de Entrada"
+							placeholder="Data de Entrada"
+							type="date"
+							id="systemEntryDate"
+							value={formik.values.systemEntryDate}
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							error={
+								formik.touched.systemEntryDate &&
+								Boolean(formik.errors.systemEntryDate)
+							}
+							helperText={
+								formik.touched.systemEntryDate && formik.errors.systemEntryDate
+							}
+							InputLabelProps={{ shrink: true }}
+						/>
+					</DivInput>
 				</div>
-			</form>
-		</>
+			</div>
+			<div className="div-button">
+				<Button
+					sx={{ color: "black" }}
+					size="large"
+					onClick={() => {
+						navigate(-1);
+					}}
+					variant="outlined"
+					fullWidth
+				>
+					CANCELAR
+				</Button>
+				<Button
+					size="large"
+					color="secondary"
+					variant="contained"
+					type="submit"
+					fullWidth
+				>
+					Enviar
+				</Button>
+			</div>
+		</Form>
 	);
 };
 
