@@ -15,6 +15,7 @@ const useStateBook = (): useStateBookData => {
 		status: { description: "", isActive: true },
 		rentHistory: [],
 	});
+
 	return [book, setBook];
 };
 

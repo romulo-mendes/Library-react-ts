@@ -7,12 +7,10 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import useStateBook from "../../hooks/useStateBook";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { postBook } from "../../api";
+import { postBook } from "../../services/api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DivInput, Form } from "./BookFormStyled";
-
-
 
 const validationSchema = yup.object({
 	author: yup.string().required("Campo Obrigatório"),
@@ -53,7 +51,6 @@ const BookForm = () => {
 		},
 		validationSchema: validationSchema,
 		onSubmit: async (values) => {
-			console.log(values.id);
 			if (!values.id) {
 				values.id = self.crypto.randomUUID();
 			}
@@ -64,8 +61,7 @@ const BookForm = () => {
 
 	useEffect(() => {
 		async function postBookWithValue() {
-			const response = await postBook(book);
-			console.log(response);
+			await postBook(book);
 		}
 		if (book.id) {
 			postBookWithValue();

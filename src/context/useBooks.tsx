@@ -1,6 +1,6 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import React, { createContext, useContext, useMemo, useState } from "react";
-import { getAllBooks } from "../api";
+import { getAllBooks } from "../services/api";
 import { Book } from "../models/book";
 
 export enum categoryEnum {
@@ -27,20 +27,27 @@ function BooksProvider({ children }: BooksProviderProp) {
 	const [search, setSearch] = useState("");
 	const [category, setCategory] = useState<categoryEnum>();
 	const [books, setBooks] = useState([]);
+	const [filteredBooks, setFilteredBooks] = useState([]);
 
 	React.useEffect(() => {
 		const getBooks = async () => setBooks(await getAllBooks());
 		getBooks();
 	}, []);
-	const filteredBooks =
-		search && category
-			? books.filter((book: Book) =>
-					book[category].toLowerCase().includes(search.toLowerCase())
-			  )
-			: books;
-	const providerData = useMemo(() => {
-		return { search, setSearch, category, setCategory, filteredBooks };
-	}, [search, setSearch, category, setCategory, filteredBooks]);
+
+	React.useEffect(() => {
+		setFilteredBooks(
+			search && category
+				? books.filter((book: Book) =>
+						book[category].toLowerCase().includes(search.toLowerCase())
+				  )
+				: books
+		);
+	}, [search, category, books]);
+
+	const providerData = useMemo(
+		() => ({ search, setSearch, category, setCategory, filteredBooks }),
+		[search, setSearch, category, setCategory, filteredBooks]
+	);
 	return (
 		<BooksContext.Provider value={providerData}>{children}</BooksContext.Provider>
 	);

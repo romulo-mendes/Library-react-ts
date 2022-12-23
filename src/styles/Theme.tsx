@@ -1,6 +1,11 @@
 import { createTheme } from "@mui/material/styles";
 
 export const mainTheme = createTheme({
+	typography: {
+		button: {
+			textTransform: "none",
+		},
+	},
 	palette: {
 		primary: {
 			main: "#133052",
@@ -34,6 +39,13 @@ export const mainTheme = createTheme({
 					},
 				},
 			],
+		},
+		MuiTypography: {
+			styleOverrides: {
+				root: { color: "#3e4756" },
+				body1: { fontWeight: "300", marginBottom: "24px" },
+				subtitle1: { fontWeight: "500", marginBottom: "8px" },
+			},
 		},
 	},
 });

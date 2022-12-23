@@ -1,7 +1,7 @@
 import axios from "axios";
-import { Book } from "./models/book";
+import { Book } from "../models/book";
 
-const api = axios.create({
+export const api = axios.create({
 	baseURL: "http://localhost:3000/",
 });
 
@@ -26,6 +26,15 @@ export const postBook = async (book: Book) => {
 export const getAllBooks = async () => {
 	try {
 		const response = await api.get(`books`);
+		return Promise.resolve(response.data);
+	} catch (error) {
+		return Promise.reject(error);
+	}
+};
+
+export const getBook = async (bookId: string) => {
+	try {
+		const response = await api.get(`books/${bookId}`);
 		return Promise.resolve(response.data);
 	} catch (error) {
 		return Promise.reject(error);

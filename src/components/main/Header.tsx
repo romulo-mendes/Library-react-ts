@@ -30,7 +30,7 @@ const UserContainer = styled.div`
 	cursor: pointer;
 	position: relative;
 	p {
-		color: #495057;
+		color: #495057 !important;
 		font-weight: 500;
 		font-size: 18px;
 	}
@@ -45,6 +45,7 @@ const UserContainer = styled.div`
 		top: 0;
 		padding: 16px;
 		margin-top: 46px;
+		z-index: 2;
 	}
 `;
 

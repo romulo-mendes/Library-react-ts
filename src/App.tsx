@@ -6,21 +6,26 @@ import Library from "./Pages/library";
 import { mainTheme } from "./styles/Theme";
 import { ThemeProvider } from "@mui/material";
 import NewBook from "./Pages/newBook";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { ptBR } from "date-fns/locale";
 
 function App() {
 	return (
 		<>
 			<ThemeProvider theme={mainTheme}>
-				<BrowserRouter>
-					<Routes>
-						<Route path="/login" element={<Login />} />
-						<Route path="/" element={<Header />}>
-							<Route index element={<Home />} />
-							<Route path="biblioteca" element={<Library />} />
-							<Route path="cadastrar" element={<NewBook />} />
-						</Route>
-					</Routes>
-				</BrowserRouter>
+				<LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
+					<BrowserRouter>
+						<Routes>
+							<Route path="/login" element={<Login />} />
+							<Route path="/" element={<Header />}>
+								<Route index element={<Home />} />
+								<Route path="biblioteca" element={<Library />} />
+								<Route path="cadastrar" element={<NewBook />} />
+							</Route>
+						</Routes>
+					</BrowserRouter>
+				</LocalizationProvider>
 			</ThemeProvider>
 		</>
 	);

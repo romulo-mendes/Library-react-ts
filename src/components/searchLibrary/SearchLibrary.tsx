@@ -26,7 +26,7 @@ const FormContainer = styled.form`
 	}
 `;
 const SearchLibrary = () => {
-	const { setSearch, setCategory, filteredBooks } = useBooks();
+	const { setSearch, setCategory } = useBooks();
 	const [searchInput, setSearchInput] = useState("");
 	const [categorySelect, setCategorySelect] = useState("");
 	return (
@@ -58,9 +58,6 @@ const SearchLibrary = () => {
 										sx={{ height: "43px" }}
 										variant="contained"
 										color="secondary"
-										onClick={() => {
-											console.log(filteredBooks);
-										}}
 									>
 										Buscar
 									</Button>

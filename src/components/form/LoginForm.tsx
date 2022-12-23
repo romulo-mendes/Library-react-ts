@@ -8,7 +8,7 @@ import styled from "styled-components";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
-import { getUser } from "../../api";
+import { getUser } from "../../services/api";
 
 const FormContainer = styled.div`
 	width: 433px;
@@ -149,7 +149,7 @@ const LoginForm = () => {
 						{"Esqueci minha senha"}
 					</Link>
 
-					<Button type="submit" size="large" variant="contained">
+					<Button type="submit" size="large" variant="contained" color="secondary">
 						ENTRAR
 					</Button>
 				</form>
