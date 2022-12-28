@@ -9,7 +9,7 @@ const useStateBook = (): useStateBookData => {
 		tittle: "",
 		author: "",
 		synopsis: "",
-		systemEntryDate: "",
+		systemEntryDate: new Date(),
 		image: "",
 		genre: "",
 		status: { description: "", isActive: true },

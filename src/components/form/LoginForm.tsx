@@ -8,7 +8,7 @@ import styled from "styled-components";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
-import { getUser } from "../../services/api";
+import { getUser } from "../../services/auth";
 
 const FormContainer = styled.div`
 	width: 433px;

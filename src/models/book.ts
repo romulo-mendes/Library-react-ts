@@ -3,11 +3,11 @@ type Status = {
 	description: string;
 };
 
-type RentHistory = {
+export type rentHistory = {
 	studentName: string;
 	class: string;
-	withdrawalDate: string;
-	deliveryDate: string;
+	withdrawalDate: Date;
+	deliveryDate: Date;
 };
 
 export type Book = {
@@ -17,7 +17,7 @@ export type Book = {
 	genre: string;
 	status: Status;
 	image: string;
-	systemEntryDate: string;
+	systemEntryDate: Date;
 	synopsis: string;
-	rentHistory?: RentHistory[];
+	rentHistory: rentHistory[];
 };

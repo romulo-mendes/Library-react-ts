@@ -7,6 +7,8 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box/Box";
 import MainModal from "../modal/MainModal";
 import LentBook from "../modal/LentBook";
+import { TModal } from "../../models/modalState";
+import RentHistory from "../modal/RentHistory";
 
 const CardsContainer = styled.div`
 	display: flex;
@@ -38,10 +40,8 @@ const BooksLibrary = () => {
 	const standardModal = {
 		main: true,
 		lent: false,
-		isRent: false,
 		rentHistory: false,
 		inactive: false,
-		isInactive: false,
 	};
 	const [modal, setModal] = useState(standardModal);
 	const [bookId, setBookId] = useState("");
@@ -57,34 +57,24 @@ const BooksLibrary = () => {
 		handleOpen();
 	}
 
-	const handleChangeModal = (
-		closeModal: keyof typeof modal,
-		openModal: keyof typeof modal
-	) => {
-		setModal((modal) => ({ ...modal, [closeModal]: false, [openModal]: true }));
+	const handleChangeModal = (closeModal: TModal, openModal: TModal) => {
+		setModal((prev) => ({ ...prev, [closeModal]: false, [openModal]: true }));
 	};
 
 	return (
 		<>
-			<Modal open={open} onClose={handleClose}>
-				<>
-					<Box sx={style}>
-						{modal.main && (
-							<MainModal
-								bookId={bookId}
-								setModal={setModal}
-								controleModal={handleChangeModal}
-							/>
-						)}
-						{modal.lent && (
-							<LentBook
-								bookId={bookId}
-								setModal={setModal}
-								controleModal={handleChangeModal}
-							/>
-						)}
-					</Box>
-				</>
+			<Modal sx={{ overflow: "scroll" }} open={open} onClose={handleClose}>
+				<Box sx={style}>
+					{modal.main && (
+						<MainModal bookId={bookId} controlModal={handleChangeModal} />
+					)}
+					{modal.lent && (
+						<LentBook bookId={bookId} controlModal={handleChangeModal} />
+					)}
+					{modal.rentHistory && (
+						<RentHistory bookId={bookId} controlModal={handleChangeModal} />
+					)}
+				</Box>
 			</Modal>
 			<CardsContainer>
 				{filteredBooks &&

@@ -1,7 +1,7 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import React, { createContext, useContext, useMemo, useState } from "react";
-import { getAllBooks } from "../services/api";
 import { Book } from "../models/book";
+import { getAllBooks } from "../services/books";
 
 export enum categoryEnum {
 	TITTLE = "tittle",

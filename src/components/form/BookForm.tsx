@@ -7,17 +7,19 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import useStateBook from "../../hooks/useStateBook";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { postBook } from "../../services/api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DivInput, Form } from "./BookFormStyled";
+import { postBook } from "../../services/books";
+import { Book } from "../../models/book";
+import { DatePicker } from "@mui/x-date-pickers";
 
 const validationSchema = yup.object({
 	author: yup.string().required("Campo Obrigatório"),
 	synopsis: yup.string().required("Campo Obrigatório"),
 	tittle: yup.string().required("Campo Obrigatório"),
 	genre: yup.string().required("Campo Obrigatório"),
-	systemEntryDate: yup.date().required("Campo Obrigatório"),
+	systemEntryDate: yup.string().required("Campo Obrigatório"),
 });
 
 const BookForm = () => {
@@ -45,7 +47,7 @@ const BookForm = () => {
 			synopsis: "",
 			tittle: "",
 			genre: "",
-			systemEntryDate: "",
+			systemEntryDate: null,
 			id: "",
 			image: "",
 		},
@@ -55,6 +57,8 @@ const BookForm = () => {
 				values.id = self.crypto.randomUUID();
 			}
 			values.image = img;
+
+			values.systemEntryDate = new Date(values.systemEntryDate);
 			setBook({ ...book, ...values });
 		},
 	});
@@ -82,7 +86,14 @@ const BookForm = () => {
 					sx={{ border: "2px dashed #ffc501", width: 172, height: 206 }}
 				>
 					{img && <img src={img} />}
-					<input required type="file" name="img" id="img" onChange={ImgChange} />
+					<input
+						required
+						type="file"
+						accept="image/png, image/jpeg"
+						name="img"
+						id="img"
+						onChange={ImgChange}
+					/>
 					<AddCircleOutlineIcon color="secondary" />
 					<p>Capa</p>
 				</Box>
@@ -139,9 +150,31 @@ const BookForm = () => {
 								<MenuItem value="Romance">Romance</MenuItem>
 							</Select>
 						</FormControl>
-						<TextField
-							fullWidth
+						<DatePicker
 							label="Data de Entrada"
+							inputFormat="dd/MM/yyyy"
+							value={formik.values.systemEntryDate && formik.values.systemEntryDate}
+							onChange={(value) => {
+								value && formik.setFieldValue("systemEntryDate", value);
+							}}
+							renderInput={(params) => (
+								<TextField
+									id="systemEntryDate"
+									error={
+										formik.touched.systemEntryDate &&
+										Boolean(formik.errors.systemEntryDate)
+									}
+									helperText={
+										formik.touched.systemEntryDate && formik.errors.systemEntryDate
+									}
+									fullWidth
+									{...params}
+								/>
+							)}
+						/>
+						{/* <TextField
+							fullWidth
+							
 							placeholder="Data de Entrada"
 							type="date"
 							id="systemEntryDate"
@@ -156,7 +189,7 @@ const BookForm = () => {
 								formik.touched.systemEntryDate && formik.errors.systemEntryDate
 							}
 							InputLabelProps={{ shrink: true }}
-						/>
+						/> */}
 					</DivInput>
 				</div>
 			</div>
