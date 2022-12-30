@@ -4,35 +4,11 @@ import { Alert, Button, Link, Snackbar, TextField } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import MailTwoToneIcon from "@mui/icons-material/MailTwoTone";
 import LockTwoToneIcon from "@mui/icons-material/LockTwoTone";
-import styled from "styled-components";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { getUser } from "../../services/auth";
-
-const FormContainer = styled.div`
-	width: 433px;
-	height: 456px;
-	padding: 56px 40px;
-	background-color: #fff;
-	border-radius: 8px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 56px;
-	z-index: 1;
-	form {
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-		width: 100%;
-	}
-	.link {
-		font-weight: 700;
-		font-size: 14px;
-		margin-bottom: 16px;
-	}
-`;
+import { FormContainer } from "./LoginFormStyled";
 
 const validationSchema = yup.object({
 	email: yup.string().email("Digite um email válido").required("Campo obrigatório"),

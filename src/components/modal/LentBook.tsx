@@ -3,24 +3,12 @@ import { MainModalProps } from "../../models/modalState";
 import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import styled from "styled-components";
 import { DatePicker } from "@mui/x-date-pickers";
 import { getBook, editBook } from "../../services/books";
 import { Book } from "../../models/book";
 import { useEffect, useState } from "react";
-
-const LentContainer = styled.div`
-	width: 722px;
-	form {
-		display: flex;
-		flex-direction: column;
-		gap: 40px;
-		.button-lent {
-			align-self: flex-end;
-			width: 272px;
-		}
-	}
-`;
+import Closer from "./Closer";
+import { LentContainer } from "./LentBookStyled";
 
 const validationSchema = yup.object({
 	studentName: yup.string().required("Campo Obrigatório"),
@@ -69,6 +57,7 @@ const LentBook = ({ controlModal, bookId }: MainModalProps) => {
 
 	return (
 		<LentContainer>
+			<Closer onClick={() => controlModal("lent", "main")} />
 			<Typography variant="h6" sx={{ mb: "24px" }}>
 				Informe os dados do aluno antes de continuar
 			</Typography>
@@ -113,7 +102,6 @@ const LentBook = ({ controlModal, bookId }: MainModalProps) => {
 						<DatePicker
 							label="Data de Retirada"
 							inputFormat="dd/MM/yyyy"
-							disablePast
 							value={formik.values.withdrawalDate && formik.values.withdrawalDate}
 							onChange={(value) => {
 								value && formik.setFieldValue("withdrawalDate", value);

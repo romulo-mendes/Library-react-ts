@@ -1,69 +1,25 @@
 import { Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Book, rentHistory } from "../../models/book";
-import styled from "styled-components";
+import { rentHistory } from "../../models/book";
 import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
 import { MainModalProps } from "../../models/modalState";
 import { editBook, getBook } from "../../services/books";
 import IsRent from "./IsRent";
-
-const RentHistoryContainer = styled.div`
-	.MuiTableCell-root {
-		color: #3e4756;
-		border: none;
-		padding: 0 0 8px 16px;
-	}
-	.MuiTableCell-head {
-		font-weight: 600;
-		padding-top: 16px;
-	}
-	.MuiTableCell-body {
-		font-weight: 300;
-		padding-bottom: 16px;
-	}
-`;
-const MainModalContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	gap: 60px;
-	.main-content {
-		display: flex;
-		gap: 40px;
-	}
-	.img-side {
-		max-width: 272px;
-		min-height: 390px;
-		img {
-			max-width: 272px;
-		}
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		gap: 32px;
-	}
-	.text-side {
-		min-width: 424px;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		.text {
-			min-height: 390px;
-		}
-		.buttons {
-			display: flex;
-			gap: 24px;
-			justify-content: center;
-			.MuiButton-root {
-				padding: 16px 24px;
-			}
-		}
-	}
-`;
+import { useNavigate } from "react-router-dom";
+import useStateBook from "../../hooks/useStateBook";
+import {
+	IsActiveContainer,
+	MainModalContainer,
+	RentHistoryContainer,
+} from "./MainModalStyled";
 
 const MainModal = ({ bookId, controlModal }: MainModalProps) => {
-	const [book, setBook] = useState<Book>();
+	const [book, setBook] = useStateBook();
 	const [isRent, setIsRent] = useState(false);
+	const [isActive, setIsActive] = useState(true);
 	const [lastRent, setLastRent] = useState<rentHistory>();
+	const [render, setRender] = useState(false);
+	const navigate = useNavigate();
 
 	async function AwaitGetBook() {
 		const response = await getBook(bookId);
@@ -72,9 +28,14 @@ const MainModal = ({ bookId, controlModal }: MainModalProps) => {
 
 	useEffect(() => {
 		AwaitGetBook();
-	}, []);
+	}, [render]);
 
 	useEffect(() => {
+		if (book && book.status.isActive === false) {
+			return setIsActive(false);
+		} else {
+			setIsActive(true);
+		}
 		if (book && book.rentHistory.length) {
 			const currentRent = book.rentHistory[book.rentHistory.length - 1];
 			if (currentRent && new Date(currentRent.deliveryDate) > new Date()) {
@@ -85,12 +46,21 @@ const MainModal = ({ bookId, controlModal }: MainModalProps) => {
 			}
 		}
 	}, [book]);
-
 	async function returnBook() {
 		if (book) {
 			book.rentHistory[book.rentHistory.length - 1].deliveryDate = new Date();
 			const editedBook = await editBook(bookId, book);
 			setBook(editedBook);
+		}
+	}
+
+	function activeBook() {
+		if (book) {
+			editBook(bookId, {
+				...book,
+				status: { ...book.status, description: "", isActive: true },
+			});
+			setRender(!render);
 		}
 	}
 
@@ -111,6 +81,7 @@ const MainModal = ({ bookId, controlModal }: MainModalProps) => {
 								fullWidth
 								variant="contained"
 								color="secondary"
+								disabled={!isActive}
 								onClick={() => {
 									isRent ? returnBook() : controlModal("main", "lent");
 								}}
@@ -146,12 +117,36 @@ const MainModal = ({ bookId, controlModal }: MainModalProps) => {
 								</Typography>
 							</div>
 							<div className="buttons">
-								<Button variant="outlined" color="info">
+								<Button
+									variant="outlined"
+									color="info"
+									onClick={() => {
+										navigate(`/biblioteca/editar/${bookId}`);
+									}}
+								>
 									Editar
 								</Button>
-								<Button variant="outlined" color="error">
-									Inativar
-								</Button>
+								{isActive ? (
+									<Button
+										variant="outlined"
+										onClick={() => {
+											controlModal("main", "inactive");
+										}}
+										color="error"
+									>
+										Inativar
+									</Button>
+								) : (
+									<Button
+										variant="outlined"
+										color="success"
+										onClick={() => {
+											activeBook();
+										}}
+									>
+										Ativar
+									</Button>
+								)}
 								<Button
 									variant="outlined"
 									onClick={() => controlModal("main", "rentHistory")}
@@ -162,6 +157,17 @@ const MainModal = ({ bookId, controlModal }: MainModalProps) => {
 							</div>
 						</div>
 					</div>
+					{!isActive && (
+						<IsActiveContainer>
+							<Typography mb="16px" variant="h6">
+								Informações da inativação
+							</Typography>
+							<div>
+								<Typography variant="subtitle1">Motivo</Typography>
+								<Typography variant="body1">{book.status.description}</Typography>
+							</div>
+						</IsActiveContainer>
+					)}
 					{isRent && lastRent && (
 						<RentHistoryContainer>
 							<Typography variant="h6" sx={{ mb: "16px" }}>

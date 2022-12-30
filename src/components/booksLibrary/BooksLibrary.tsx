@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Book } from "../../models/book";
 import CardLibrary from "../../components/booksLibrary/CardLibrary";
-import styled from "@emotion/styled";
 import { useBooks } from "../../context/useBooks";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box/Box";
@@ -9,30 +8,10 @@ import MainModal from "../modal/MainModal";
 import LentBook from "../modal/LentBook";
 import { TModal } from "../../models/modalState";
 import RentHistory from "../modal/RentHistory";
-
-const CardsContainer = styled.div`
-	display: flex;
-	gap: 40px;
-	flex-wrap: wrap;
-	justify-content: center;
-	min-height: 45vh;
-	width: 100%;
-	height: 100%;
-	padding: 0 20px 20px 20px;
-`;
-
-const style = {
-	position: "absolute",
-	left: "50%",
-	transform: "translate(-50%, 0%)",
-	display: "flex",
-	justifyContent: "center",
-	alignItems: "center",
-	bgcolor: "#FFF",
-	border: "1px solid #707070",
-	padding: "40px",
-	mt: "55px",
-};
+import Inactivate from "../modal/Inactivate";
+import Closer from "../modal/Closer";
+import BackTo from "../main/BackTo";
+import { CardsContainer, style } from "./BooksLibraryStyled";
 
 const BooksLibrary = () => {
 	const { filteredBooks } = useBooks();
@@ -63,16 +42,23 @@ const BooksLibrary = () => {
 
 	return (
 		<>
+			<BackTo back="Home" current="Biblioteca" />
 			<Modal sx={{ overflow: "scroll" }} open={open} onClose={handleClose}>
 				<Box sx={style}>
 					{modal.main && (
-						<MainModal bookId={bookId} controlModal={handleChangeModal} />
+						<>
+							<MainModal bookId={bookId} controlModal={() => handleChangeModal} />
+							<Closer onClick={handleClose} />
+						</>
 					)}
 					{modal.lent && (
-						<LentBook bookId={bookId} controlModal={handleChangeModal} />
+						<LentBook bookId={bookId} controlModal={() => handleChangeModal} />
 					)}
 					{modal.rentHistory && (
-						<RentHistory bookId={bookId} controlModal={handleChangeModal} />
+						<RentHistory bookId={bookId} controlModal={() => handleChangeModal} />
+					)}
+					{modal.inactive && (
+						<Inactivate bookId={bookId} controlModal={() => handleChangeModal} />
 					)}
 				</Box>
 			</Modal>

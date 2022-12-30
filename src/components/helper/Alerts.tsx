@@ -1,4 +1,4 @@
-import { Alert, Snackbar, AlertColor } from "@mui/material";
+/* import { Alert, Snackbar, AlertColor } from "@mui/material";
 import { useState } from "react";
 
 type AlertsProps = {
@@ -33,3 +33,4 @@ const Alerts = ({ isOpen, alertMsg, typeError }: AlertsProps) => {
 };
 
 export default Alerts;
+ */

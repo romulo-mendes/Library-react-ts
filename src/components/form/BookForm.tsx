@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { TextField, Button, Box } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -8,10 +9,9 @@ import MenuItem from "@mui/material/MenuItem";
 import useStateBook from "../../hooks/useStateBook";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { DivInput, Form } from "./BookFormStyled";
-import { postBook } from "../../services/books";
-import { Book } from "../../models/book";
+import { editBook, getBook, postBook } from "../../services/books";
 import { DatePicker } from "@mui/x-date-pickers";
 
 const validationSchema = yup.object({
@@ -25,7 +25,20 @@ const validationSchema = yup.object({
 const BookForm = () => {
 	const [book, setBook] = useStateBook();
 	const [img, setImg] = useState("");
+	const { bookId } = useParams();
 	const navigate = useNavigate();
+
+	async function getBookAsync() {
+		if (bookId) {
+			const response = await getBook(bookId);
+			setBook(response);
+			setImg(response.image);
+		}
+	}
+
+	useEffect(() => {
+		getBookAsync();
+	}, []);
 
 	function ImgChange(e: { target: HTMLInputElement }) {
 		const getImg = e.target.files;
@@ -42,36 +55,35 @@ const BookForm = () => {
 	}
 
 	const formik = useFormik({
-		initialValues: {
-			author: "",
-			synopsis: "",
-			tittle: "",
-			genre: "",
-			systemEntryDate: null,
-			id: "",
-			image: "",
-		},
+		initialValues: bookId
+			? { ...book }
+			: {
+					...book,
+					author: "",
+					synopsis: "",
+					tittle: "",
+					genre: "",
+					systemEntryDate: null,
+					image: "",
+			  },
+		enableReinitialize: true,
 		validationSchema: validationSchema,
 		onSubmit: async (values) => {
 			if (!values.id) {
 				values.id = self.crypto.randomUUID();
 			}
 			values.image = img;
-
 			values.systemEntryDate = new Date(values.systemEntryDate);
-			setBook({ ...book, ...values });
+
+			if (bookId) {
+				editBook(bookId, values);
+				navigate(-1);
+			} else {
+				postBook(values);
+				navigate(-1);
+			}
 		},
 	});
-
-	useEffect(() => {
-		async function postBookWithValue() {
-			await postBook(book);
-		}
-		if (book.id) {
-			postBookWithValue();
-			navigate(-1);
-		}
-	}, [book]);
 
 	return (
 		<Form
@@ -87,7 +99,6 @@ const BookForm = () => {
 				>
 					{img && <img src={img} />}
 					<input
-						required
 						type="file"
 						accept="image/png, image/jpeg"
 						name="img"
@@ -148,6 +159,10 @@ const BookForm = () => {
 								<MenuItem value="Ação e Aventura">Ação e Aventura</MenuItem>
 								<MenuItem value="Horror">Horror</MenuItem>
 								<MenuItem value="Romance">Romance</MenuItem>
+								<MenuItem value="Autoajuda">Autoajuda</MenuItem>
+								<MenuItem value="Historia">Historia</MenuItem>
+								<MenuItem value="Finanças">Finanças</MenuItem>
+								<MenuItem value="Web Marketing">Web Marketing</MenuItem>
 							</Select>
 						</FormControl>
 						<DatePicker
@@ -164,32 +179,11 @@ const BookForm = () => {
 										formik.touched.systemEntryDate &&
 										Boolean(formik.errors.systemEntryDate)
 									}
-									helperText={
-										formik.touched.systemEntryDate && formik.errors.systemEntryDate
-									}
 									fullWidth
 									{...params}
 								/>
 							)}
 						/>
-						{/* <TextField
-							fullWidth
-							
-							placeholder="Data de Entrada"
-							type="date"
-							id="systemEntryDate"
-							value={formik.values.systemEntryDate}
-							onChange={formik.handleChange}
-							onBlur={formik.handleBlur}
-							error={
-								formik.touched.systemEntryDate &&
-								Boolean(formik.errors.systemEntryDate)
-							}
-							helperText={
-								formik.touched.systemEntryDate && formik.errors.systemEntryDate
-							}
-							InputLabelProps={{ shrink: true }}
-						/> */}
 					</DivInput>
 				</div>
 			</div>

@@ -1,4 +1,3 @@
-import MaterialReactTable, { MRT_ColumnDef } from "material-react-table";
 import { useEffect, useState, useMemo } from "react";
 import { rentHistory } from "../../models/book";
 import { MainModalProps } from "../../models/modalState";
@@ -10,7 +9,19 @@ import {
 	TableHead,
 	TableRow,
 	TextField,
+	Typography,
 } from "@mui/material";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import InputAdornment from "@mui/material/InputAdornment";
+import Closer from "./Closer";
+import { RentTableContainer } from "./RentHsitoryStyled";
+
+enum columnEnum {
+	STUDENTNAME = "studentName",
+	CLASS = "class",
+	WITHDRAWALDATE = "withdrawalDate",
+	DELIVERYDATE = "deliveryDate",
+}
 
 const RentHistory = ({ bookId, controlModal }: MainModalProps) => {
 	const [rent, setRent] = useState<rentHistory[]>();
@@ -18,16 +29,28 @@ const RentHistory = ({ bookId, controlModal }: MainModalProps) => {
 	const [classFilter, setClassFilter] = useState("");
 	const [withdrawalDateFilter, setWithdrawalDateFilter] = useState("");
 	const [deliveryDateFilter, setDeliveryDateFilter] = useState("");
+	const [filteredBook, setFilteredBook] = useState<rentHistory[]>();
 
 	async function getBookAwait() {
 		const response = await getBook(bookId);
 		setRent(response.rentHistory);
+		setFilteredBook(response.rentHistory);
 	}
 	useEffect(() => {
 		getBookAwait();
 	}, []);
 
-	const filteredRent = useMemo(() => {
+	const handleSortClick = (column: columnEnum) => {
+		if (rent && column) {
+			setFilteredBook(
+				rent.sort(function (a, b) {
+					return a[column] < b[column] ? -1 : a[column] > b[column] ? 1 : 0;
+				})
+			);
+		}
+	};
+
+	/* const filteredRent = useMemo(() => {
 		if (!rent) return rent;
 		if (
 			!studentNameFilter &&
@@ -76,66 +99,122 @@ const RentHistory = ({ bookId, controlModal }: MainModalProps) => {
 		withdrawalDateFilter,
 		deliveryDateFilter,
 		rent,
-	]);
+	]); */
 
 	return (
-		<Table>
-			<TableHead>
-				<TableRow>
-					<TableCell>
-						Nome do Aluno
-						<TextField
-							value={studentNameFilter}
-							name="studentName"
-							onChange={(event) => setStudentNameFilter(event.target.value)}
-							variant="standard"
-						/>
-					</TableCell>
-					<TableCell>
-						Turma
-						<TextField
-							value={classFilter}
-							name="class"
-							onChange={(event) => setClassFilter(event.target.value)}
-							variant="standard"
-						/>
-					</TableCell>
-					<TableCell>
-						Data de Retirada
-						<TextField
-							value={withdrawalDateFilter}
-							name="withdrawalDate"
-							onChange={(event) => setWithdrawalDateFilter(event.target.value)}
-							variant="standard"
-						/>
-					</TableCell>
-					<TableCell>
-						Data de Entrega
-						<TextField
-							value={deliveryDateFilter}
-							name="deliveryDate"
-							onChange={(event) => setDeliveryDateFilter(event.target.value)}
-							variant="standard"
-						/>
-					</TableCell>
-				</TableRow>
-			</TableHead>
-			<TableBody>
-				{filteredRent &&
-					filteredRent.map((row, index) => (
-						<TableRow key={index}>
-							<TableCell>{row.studentName}</TableCell>
-							<TableCell>{row.class}</TableCell>
-							<TableCell>
-								{new Date(row.withdrawalDate).toLocaleDateString("pt-BR")}
-							</TableCell>
-							<TableCell>
-								{new Date(row.deliveryDate).toLocaleDateString("pt-BR")}
-							</TableCell>
-						</TableRow>
-					))}
-			</TableBody>
-		</Table>
+		<RentTableContainer>
+			<Closer onClick={() => controlModal("rentHistory", "main")} />
+			<Typography variant="h6" sx={{ mb: "29px" }}>
+				Histórico de empréstimos do livro
+			</Typography>
+			<Table sx={{ minWidth: 978 }}>
+				<TableHead>
+					<TableRow>
+						<TableCell>Nome do Aluno</TableCell>
+						<TableCell>Turma</TableCell>
+						<TableCell>Data de Retirada</TableCell>
+						<TableCell>Data de Entrega</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
+							<TextField
+								value={studentNameFilter}
+								name="studentName"
+								onChange={(event) => setStudentNameFilter(event.target.value)}
+								variant="standard"
+								sx={{ width: "105px" }}
+								InputProps={{
+									startAdornment: (
+										<InputAdornment
+											position="start"
+											sx={{ cursor: "pointer" }}
+											onClick={() => handleSortClick("studentName")}
+										>
+											<FilterListIcon />
+										</InputAdornment>
+									),
+								}}
+							/>
+						</TableCell>
+						<TableCell>
+							<TextField
+								value={classFilter}
+								name="class"
+								onChange={(event) => setClassFilter(event.target.value)}
+								variant="standard"
+								sx={{ width: "105px" }}
+								InputProps={{
+									startAdornment: (
+										<InputAdornment
+											position="start"
+											sx={{ cursor: "pointer" }}
+											onClick={() => handleSortClick("class")}
+										>
+											<FilterListIcon />
+										</InputAdornment>
+									),
+								}}
+							/>
+						</TableCell>
+						<TableCell>
+							<TextField
+								value={withdrawalDateFilter}
+								name="withdrawalDate"
+								onChange={(event) => setWithdrawalDateFilter(event.target.value)}
+								variant="standard"
+								sx={{ width: "105px" }}
+								InputProps={{
+									startAdornment: (
+										<InputAdornment
+											position="start"
+											sx={{ cursor: "pointer" }}
+											onClick={() => handleSortClick("withdrawalDate")}
+										>
+											<FilterListIcon />
+										</InputAdornment>
+									),
+								}}
+							/>
+						</TableCell>
+						<TableCell>
+							<TextField
+								value={deliveryDateFilter}
+								name="deliveryDate"
+								onChange={(event) => setDeliveryDateFilter(event.target.value)}
+								variant="standard"
+								sx={{ width: "105px" }}
+								InputProps={{
+									startAdornment: (
+										<InputAdornment
+											position="start"
+											sx={{ cursor: "pointer" }}
+											onClick={() => handleSortClick("deliveryDate")}
+										>
+											<FilterListIcon />
+										</InputAdornment>
+									),
+								}}
+							/>
+						</TableCell>
+					</TableRow>
+				</TableHead>
+				<TableBody>
+					{filteredBook &&
+						filteredBook.map((row, index) => (
+							<TableRow key={index}>
+								<TableCell>{row.studentName}</TableCell>
+								<TableCell>{row.class}</TableCell>
+								<TableCell>
+									{new Date(row.withdrawalDate).toLocaleDateString("pt-BR")}
+								</TableCell>
+								<TableCell>
+									{new Date(row.deliveryDate).toLocaleDateString("pt-BR")}
+								</TableCell>
+							</TableRow>
+						))}
+				</TableBody>
+			</Table>
+		</RentTableContainer>
 	);
 };
 

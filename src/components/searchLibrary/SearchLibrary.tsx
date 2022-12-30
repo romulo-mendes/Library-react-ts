@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { categoryEnum, useBooks } from "../../context/useBooks";
-import styled from "styled-components";
 import { TextField, Button } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
@@ -8,23 +7,8 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import { FormContainer } from "./SearchLibraryStyled";
 
-const FormContainer = styled.form`
-	display: flex;
-	gap: 32px;
-	.input-container {
-		display: flex;
-		.div-input {
-			width: 666px;
-		}
-		.MuiInputBase-root {
-			padding-right: 8px;
-		}
-	}
-	.div-select {
-		width: 260px;
-	}
-`;
 const SearchLibrary = () => {
 	const { setSearch, setCategory } = useBooks();
 	const [searchInput, setSearchInput] = useState("");

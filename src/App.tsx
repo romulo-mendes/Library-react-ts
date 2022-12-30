@@ -9,6 +9,7 @@ import NewBook from "./Pages/newBook";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { ptBR } from "date-fns/locale";
+import EditBook from "./Pages/editBook";
 
 function App() {
 	return (
@@ -21,6 +22,7 @@ function App() {
 							<Route path="/" element={<Header />}>
 								<Route index element={<Home />} />
 								<Route path="biblioteca" element={<Library />} />
+								<Route path="biblioteca/editar/:bookId" element={<EditBook />} />
 								<Route path="cadastrar" element={<NewBook />} />
 							</Route>
 						</Routes>
