@@ -40,66 +40,66 @@ const RentHistory = ({ bookId, controlModal }: MainModalProps) => {
 		getBookAwait();
 	}, []);
 
-	const handleSortClick = (column: columnEnum) => {
-		if (rent && column) {
-			setFilteredBook(
-				rent.sort(function (a, b) {
-					return a[column] < b[column] ? -1 : a[column] > b[column] ? 1 : 0;
-				})
-			);
-		}
-	};
-
-	/* const filteredRent = useMemo(() => {
-		if (!rent) return rent;
+	useEffect(() => {
 		if (
 			!studentNameFilter &&
 			!classFilter &&
 			!withdrawalDateFilter &&
 			!deliveryDateFilter
 		) {
-			return rent;
+			setFilteredBook(rent);
 		}
-		return rent.filter((row) => {
+		const filteredRent = rent?.filter((row) => {
 			if (
 				studentNameFilter &&
 				!row.studentName.toLowerCase().includes(studentNameFilter.toLowerCase())
-			) {
+			)
 				return false;
-			}
+
 			if (
 				classFilter &&
 				!row.class.toLowerCase().includes(classFilter.toLowerCase())
-			) {
+			)
 				return false;
-			}
+
 			if (
 				withdrawalDateFilter &&
 				!new Date(row.withdrawalDate)
 					.toLocaleDateString("pt-br")
 					.toLowerCase()
 					.includes(withdrawalDateFilter.toLowerCase())
-			) {
+			)
 				return false;
-			}
+
 			if (
 				deliveryDateFilter &&
 				!new Date(row.deliveryDate)
 					.toLocaleDateString("pt-br")
 					.toLowerCase()
 					.includes(deliveryDateFilter.toLowerCase())
-			) {
+			)
 				return false;
-			}
+
 			return true;
 		});
+		setFilteredBook(filteredRent);
 	}, [
 		studentNameFilter,
 		classFilter,
 		withdrawalDateFilter,
 		deliveryDateFilter,
 		rent,
-	]); */
+	]);
+
+	const handleSortClick = (column: columnEnum) => {
+		if (filteredBook) {
+			const filteredBookCopy = [...filteredBook];
+			const sortRent = filteredBookCopy?.sort(function (a, b) {
+				return a[column] < b[column] ? -1 : a[column] > b[column] ? 1 : 0;
+			});
+			setFilteredBook(sortRent);
+		}
+	};
 
 	return (
 		<RentTableContainer>

@@ -47,18 +47,18 @@ const BooksLibrary = () => {
 				<Box sx={style}>
 					{modal.main && (
 						<>
-							<MainModal bookId={bookId} controlModal={() => handleChangeModal} />
+							<MainModal bookId={bookId} controlModal={handleChangeModal} />
 							<Closer onClick={handleClose} />
 						</>
 					)}
 					{modal.lent && (
-						<LentBook bookId={bookId} controlModal={() => handleChangeModal} />
+						<LentBook bookId={bookId} controlModal={handleChangeModal} />
 					)}
 					{modal.rentHistory && (
-						<RentHistory bookId={bookId} controlModal={() => handleChangeModal} />
+						<RentHistory bookId={bookId} controlModal={handleChangeModal} />
 					)}
 					{modal.inactive && (
-						<Inactivate bookId={bookId} controlModal={() => handleChangeModal} />
+						<Inactivate bookId={bookId} controlModal={handleChangeModal} />
 					)}
 				</Box>
 			</Modal>
