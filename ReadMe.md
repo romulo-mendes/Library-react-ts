@@ -1,6 +1,4 @@
 # Library
-## _The Onile Library_
-
 
 Library is a project to study and a way to show my knowledge with react.ts and some libs.
 
@@ -24,6 +22,8 @@ Install the dependencies and devDependencies
 npm i
 ```
 
+## How to use
+
 Start the server
 
 ```sh
@@ -31,10 +31,9 @@ npm run dev
 npm run json
 ```
 
-## How to use
-
 After installing the dependencies and starting the servers, just access the address that appears in your terminal (usually [http://localhost:5173/](http://localhost:5173/))
 The site has a protection system so that users who are not logged in do not have access to pages other than the [Login](http://localhost:5173/login) page, so you will be immediately redirected to it, the user and password are:
+
 - email: admin@admin.com.br
 - password: admin123
 
