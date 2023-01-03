@@ -6,8 +6,6 @@ Library is a project to study and a way to show my knowledge with react.ts and s
 
 ## Tech
 
-Dillinger uses a number of open source projects to work properly:
-
 - [TypeScript](https://www.typescriptlang.org/) - TypeScript is a strongly typed programming language that builds on JavaScript, giving you better tooling at any scale.
 - [Vite](https://vitejs.dev/) - Next Generation Frontend Tooling
 - [Material-UI](https://mui.com/) - Move faster with intuitive React UI tools
@@ -43,6 +41,3 @@ The site has a protection system so that users who are not logged in do not have
 Both can be changed directly by the db.json file
 
 Once logged in, you have access to all pages on the site and can change and add new books.
-
-
-
