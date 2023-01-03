@@ -152,6 +152,11 @@ const AllRentHistory = () => {
 			const filteredBookCopy = [...filteredBook];
 			if (sorting === "asc") {
 				const sortRent = filteredBookCopy?.sort(function (a, b) {
+					if (column === "class") {
+						const aInt = parseInt(a[column].replace(/^[^\d]*/, ""));
+						const bInt = parseInt(b[column].replace(/^[^\d]*/, ""));
+						return aInt < bInt ? -1 : aInt > bInt ? 1 : 0;
+					}
 					return a[column] < b[column] ? -1 : a[column] > b[column] ? 1 : 0;
 				});
 				setFilteredBook(sortRent);
@@ -159,6 +164,11 @@ const AllRentHistory = () => {
 			}
 			if (sorting === "desc") {
 				const sortRent = filteredBookCopy?.sort(function (a, b) {
+					if (column === "class") {
+						const aInt = parseInt(a[column].replace(/^[^\d]*/, ""));
+						const bInt = parseInt(b[column].replace(/^[^\d]*/, ""));
+						return aInt > bInt ? -1 : aInt < bInt ? 1 : 0;
+					}
 					return a[column] > b[column] ? -1 : a[column] < b[column] ? 1 : 0;
 				});
 				setFilteredBook(sortRent);
