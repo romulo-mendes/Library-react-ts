@@ -18,7 +18,7 @@ type BookContextData = {
 	setSearch: (param: string) => void;
 	category: categoryEnum | undefined;
 	setCategory: (param: categoryEnum | undefined) => void;
-	filteredBooks: Book[] | never[];
+	filteredBooks: Book[] | undefined;
 };
 
 const BooksContext = createContext({} as BookContextData);
@@ -26,19 +26,22 @@ const BooksContext = createContext({} as BookContextData);
 function BooksProvider({ children }: BooksProviderProp) {
 	const [search, setSearch] = useState("");
 	const [category, setCategory] = useState<categoryEnum>();
-	const [books, setBooks] = useState([]);
-	const [filteredBooks, setFilteredBooks] = useState([]);
+	const [books, setBooks] = useState<Book[]>();
+	const [filteredBooks, setFilteredBooks] = useState<Book[]>();
 
 	React.useEffect(() => {
-		const getBooks = async () => setBooks(await getAllBooks());
+		const getBooks = async () => {
+			const booksData = await getAllBooks();
+			setBooks(booksData);
+		};
 		getBooks();
 	}, []);
 
 	React.useEffect(() => {
 		setFilteredBooks(
 			search && category
-				? books.filter((book: Book) =>
-						book[category].toLowerCase().includes(search.toLowerCase())
+				? books?.filter((book: Book) =>
+						book[category].toString().toLowerCase().includes(search.toLowerCase())
 				  )
 				: books
 		);

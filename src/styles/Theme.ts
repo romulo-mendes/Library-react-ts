@@ -1,5 +1,25 @@
 import { createTheme } from "@mui/material/styles";
 
+export const searchInputTheme = createTheme({
+	components: {
+		MuiInputLabel: {
+			styleOverrides: {
+				root: {
+					fontSize: "16px",
+					color: "#adb5bd",
+					fontWeight: "300",
+				},
+			},
+		},
+		MuiOutlinedInput: {
+			styleOverrides: {
+				notchedOutline: {
+					borderColor: "#adb5bd",
+				},
+			},
+		},
+	},
+});
 export const mainTheme = createTheme({
 	typography: {
 		button: {
@@ -8,8 +28,8 @@ export const mainTheme = createTheme({
 	},
 	palette: {
 		primary: {
-			main: "#133052",
-			dark: "#3e4756",
+			main: "#3e4756",
+			dark: "#133052",
 			contrastText: "#000",
 		},
 		secondary: {
@@ -46,6 +66,22 @@ export const mainTheme = createTheme({
 				root: { color: "#3e4756" },
 				body1: { fontWeight: "300", marginBottom: "24px" },
 				subtitle1: { fontWeight: "500", marginBottom: "8px" },
+			},
+		},
+		MuiInputLabel: {
+			styleOverrides: {
+				root: {
+					fontSize: "16px",
+					color: "#133052",
+					fontWeight: "400",
+				},
+			},
+		},
+		MuiOutlinedInput: {
+			styleOverrides: {
+				notchedOutline: {
+					borderColor: "#133052",
+				},
 			},
 		},
 	},

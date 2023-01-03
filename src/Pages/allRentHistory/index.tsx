@@ -40,15 +40,8 @@ const AllRentHistory = () => {
 	const [deliveryDateFilter, setDeliveryDateFilter] = useState("");
 
 	const [sorting, setSorting] = useState<"asc" | "desc">("asc");
-	const [rotateStudentName, setRotateStudentName] = useState(0);
-	const [rotateClass, setRotateClass] = useState(0);
-	const [rotateTittle, setRotateTittle] = useState(0);
-	const [rotateWithdrawalDate, setRotateWithdrawalDate] = useState(0);
-	const [rotateDeliveryDate, setRotateDeliveryDate] = useState(0);
+	const [columnSort, setColumnSort] = useState("");
 
-	/* async function getBookAwait(){
-
-	} */
 
 	useEffect(() => {
 		getAllBooks().then((books) => {
@@ -138,42 +131,19 @@ const AllRentHistory = () => {
 
 	const handleSortClick = (column: columnEnum) => {
 		if (filteredBook) {
-			if (column === "studentName") {
-				setRotateStudentName(rotateStudentName + 180);
-			} else if (column === "class") {
-				setRotateClass(rotateClass + 180);
-			} else if (column === "tittle") {
-				setRotateTittle(rotateTittle + 180);
-			} else if (column === "withdrawalDate") {
-				setRotateWithdrawalDate(rotateWithdrawalDate + 180);
-			} else if (column === "deliveryDate") {
-				setRotateDeliveryDate(rotateDeliveryDate + 180);
-			}
+			const sortingNext = sorting === "asc" ? "desc" : "asc";
+			setSorting(sortingNext);
+
+			setColumnSort(column);
 			const filteredBookCopy = [...filteredBook];
-			if (sorting === "asc") {
-				const sortRent = filteredBookCopy?.sort(function (a, b) {
-					if (column === "class") {
-						const aInt = parseInt(a[column].replace(/^[^\d]*/, ""));
-						const bInt = parseInt(b[column].replace(/^[^\d]*/, ""));
-						return aInt < bInt ? -1 : aInt > bInt ? 1 : 0;
-					}
+
+			const sortRent = filteredBookCopy?.sort(function (a, b) {
+				if (sortingNext === "asc")
 					return a[column] < b[column] ? -1 : a[column] > b[column] ? 1 : 0;
-				});
-				setFilteredBook(sortRent);
-				setSorting("desc");
-			}
-			if (sorting === "desc") {
-				const sortRent = filteredBookCopy?.sort(function (a, b) {
-					if (column === "class") {
-						const aInt = parseInt(a[column].replace(/^[^\d]*/, ""));
-						const bInt = parseInt(b[column].replace(/^[^\d]*/, ""));
-						return aInt > bInt ? -1 : aInt < bInt ? 1 : 0;
-					}
-					return a[column] > b[column] ? -1 : a[column] < b[column] ? 1 : 0;
-				});
-				setFilteredBook(sortRent);
-				setSorting("asc");
-			}
+
+				return a[column] > b[column] ? -1 : a[column] < b[column] ? 1 : 0;
+			});
+			setFilteredBook(sortRent);
 		}
 	};
 
@@ -202,13 +172,17 @@ const AllRentHistory = () => {
 										<InputAdornment
 											position="start"
 											sx={{ cursor: "pointer" }}
-											onClick={() => handleSortClick("studentName")}
+											onClick={() => handleSortClick(columnEnum.STUDENTNAME)}
 										>
-											<FilterListIcon
-												style={{
-													transform: `rotate(${rotateStudentName}deg)`,
-												}}
-											/>
+											{columnSort === "studentName" ? (
+												<FilterListIcon
+													style={{
+														transform: `rotate(${sorting === "desc" ? 0 : 180}deg)`,
+													}}
+												/>
+											) : (
+												<FilterListIcon />
+											)}
 										</InputAdornment>
 									),
 								}}
@@ -226,13 +200,17 @@ const AllRentHistory = () => {
 										<InputAdornment
 											position="start"
 											sx={{ cursor: "pointer" }}
-											onClick={() => handleSortClick("class")}
+											onClick={() => handleSortClick(columnEnum.CLASS)}
 										>
-											<FilterListIcon
-												style={{
-													transform: `rotate(${rotateClass}deg)`,
-												}}
-											/>
+											{columnSort === "class" ? (
+												<FilterListIcon
+													style={{
+														transform: `rotate(${sorting === "desc" ? 0 : 180}deg)`,
+													}}
+												/>
+											) : (
+												<FilterListIcon />
+											)}
 										</InputAdornment>
 									),
 								}}
@@ -250,13 +228,17 @@ const AllRentHistory = () => {
 										<InputAdornment
 											position="start"
 											sx={{ cursor: "pointer" }}
-											onClick={() => handleSortClick("tittle")}
+											onClick={() => handleSortClick(columnEnum.TITLLE)}
 										>
-											<FilterListIcon
-												style={{
-													transform: `rotate(${rotateTittle}deg)`,
-												}}
-											/>
+											{columnSort === "tittle" ? (
+												<FilterListIcon
+													style={{
+														transform: `rotate(${sorting === "desc" ? 0 : 180}deg)`,
+													}}
+												/>
+											) : (
+												<FilterListIcon />
+											)}
 										</InputAdornment>
 									),
 								}}
@@ -274,13 +256,17 @@ const AllRentHistory = () => {
 										<InputAdornment
 											position="start"
 											sx={{ cursor: "pointer" }}
-											onClick={() => handleSortClick("withdrawalDate")}
+											onClick={() => handleSortClick(columnEnum.WITHDRAWALDATE)}
 										>
-											<FilterListIcon
-												style={{
-													transform: `rotate(${rotateWithdrawalDate}deg)`,
-												}}
-											/>
+											{columnSort === "withdrawalDate" ? (
+												<FilterListIcon
+													style={{
+														transform: `rotate(${sorting === "desc" ? 0 : 180}deg)`,
+													}}
+												/>
+											) : (
+												<FilterListIcon />
+											)}
 										</InputAdornment>
 									),
 								}}
@@ -298,13 +284,17 @@ const AllRentHistory = () => {
 										<InputAdornment
 											position="start"
 											sx={{ cursor: "pointer" }}
-											onClick={() => handleSortClick("deliveryDate")}
+											onClick={() => handleSortClick(columnEnum.DELIVERYDATE)}
 										>
-											<FilterListIcon
-												style={{
-													transform: `rotate(${rotateDeliveryDate}deg)`,
-												}}
-											/>
+											{columnSort === "deliveryDate" ? (
+												<FilterListIcon
+													style={{
+														transform: `rotate(${sorting === "desc" ? 0 : 180}deg)`,
+													}}
+												/>
+											) : (
+												<FilterListIcon />
+											)}
 										</InputAdornment>
 									),
 								}}

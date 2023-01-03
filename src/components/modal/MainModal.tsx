@@ -85,6 +85,7 @@ const MainModal = ({ bookId, controlModal }: MainModalProps) => {
 								onClick={() => {
 									isRent ? returnBook() : controlModal("main", "lent");
 								}}
+								sx={{ border: "1px solid #adb5bd" }}
 							>
 								<AutoStoriesOutlinedIcon sx={{ mr: "12px" }} />
 								{isRent ? "Devolver" : "Emprestar"}

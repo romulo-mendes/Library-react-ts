@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { categoryEnum, useBooks } from "../../context/useBooks";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, ThemeProvider } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import FormControl from "@mui/material/FormControl";
@@ -8,6 +8,7 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { FormContainer } from "./SearchLibraryStyled";
+import { mainTheme } from "../../styles/Theme";
 
 const SearchLibrary = () => {
 	const { setSearch, setCategory } = useBooks();
@@ -37,14 +38,16 @@ const SearchLibrary = () => {
 							),
 							endAdornment: (
 								<InputAdornment position="end">
-									<Button
-										type="submit"
-										sx={{ height: "43px" }}
-										variant="contained"
-										color="secondary"
-									>
-										Buscar
-									</Button>
+									<ThemeProvider theme={mainTheme}>
+										<Button
+											type="submit"
+											sx={{ height: "43px" }}
+											variant="contained"
+											color="secondary"
+										>
+											Buscar
+										</Button>
+									</ThemeProvider>
 								</InputAdornment>
 							),
 						}}
