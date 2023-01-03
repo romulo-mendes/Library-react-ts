@@ -22,4 +22,8 @@ export const style = {
 	border: "1px solid #707070",
 	padding: "40px",
 	mt: "55px",
+	"@media (max-width: 510px)": {
+		padding: "50px 15px 15px 15px",
+		width: "100%",
+	},
 };

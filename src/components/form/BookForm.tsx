@@ -206,7 +206,7 @@ const BookForm = () => {
 					type="submit"
 					fullWidth
 				>
-					Enviar
+					SALVAR
 				</Button>
 			</div>
 		</Form>

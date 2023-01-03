@@ -22,4 +22,8 @@ export const FormContainer = styled.div`
 		font-size: 14px;
 		margin-bottom: 16px;
 	}
+	@media (max-width: 450px) {
+		width: auto;
+		padding: 56px 20px;
+	}
 `;

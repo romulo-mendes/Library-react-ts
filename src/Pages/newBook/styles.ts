@@ -8,4 +8,5 @@ export const NewBookContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	overflow: auto;
 `;

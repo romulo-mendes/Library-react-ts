@@ -9,4 +9,7 @@ export const InactiveContainer = styled.form`
 		align-self: flex-end;
 		padding: 16px 24px;
 	}
+	@media (max-width: 890px) {
+		width: 500px;
+	}
 `;

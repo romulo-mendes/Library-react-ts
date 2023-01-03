@@ -5,6 +5,7 @@ export const RentContainer = styled.div`
 	height: 100%;
 	background-color: #fff;
 	padding: 90px 24px 24px 24px;
+	overflow: auto;
 
 	.MuiTableCell-root {
 		font-size: 16px;

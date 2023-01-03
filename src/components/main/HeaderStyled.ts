@@ -42,4 +42,9 @@ export const UserContainer = styled.div`
 		margin-top: 46px;
 		z-index: 2;
 	}
+	@media (max-width: 420px) {
+		.user-email {
+			display: none;
+		}
+	}
 `;

@@ -5,6 +5,12 @@ export const DivInput = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 24px;
+	@media (max-width: 425px) {
+		width: 300px;
+	}
+	@media (max-width: 375px) {
+		width: 100%;
+	}
 `;
 export const Form = styled.form`
 	display: flex;
@@ -48,6 +54,38 @@ export const Form = styled.form`
 			width: 100%;
 			height: 100%;
 			pointer-events: none;
+		}
+	}
+	@media (max-width: 1025px) {
+		.input-container {
+			flex-direction: column;
+			gap: 20px;
+			align-items: center;
+		}
+	}
+	@media (max-width: 800px) {
+		padding-bottom: 50px;
+		.input-container {
+			margin-top: 250px;
+		}
+		.input-main {
+			flex-direction: column;
+		}
+		overflow-y: auto;
+		.div-button {
+			align-self: center;
+		}
+		.input-img {
+			margin: 0;
+		}
+	}
+	@media (max-width: 375px) {
+		.div-button {
+			width: auto;
+			flex-direction: column;
+		}
+		.input-container {
+			margin-top: 350px;
 		}
 	}
 	.input-main {

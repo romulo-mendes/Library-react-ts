@@ -11,6 +11,7 @@ background-color: #FFF;
 	align-items: center;
 	font-size: 20px;
 	gap: 8px;
+	z-index: 2;
 	.back {
 		opacity: 0.8;
 	}

@@ -11,4 +11,5 @@ export const LibraryContainer = styled.div`
 	padding-top: 95px;
 	gap: 76px;
 	overflow-y: scroll;
+	
 `;

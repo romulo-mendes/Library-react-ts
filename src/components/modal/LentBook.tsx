@@ -67,7 +67,7 @@ const LentBook = ({ controlModal, bookId }: MainModalProps) => {
 					formik.handleSubmit();
 				}}
 			>
-				<Grid container spacing={2.4}>
+				<Grid container columns={{ xs: 1, sm: 12 }} spacing={2.4}>
 					<Grid item xs={6}>
 						<TextField
 							label="Nome do Aluno"

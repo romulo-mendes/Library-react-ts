@@ -9,7 +9,12 @@ const IsRent = ({ lastRent }: lastRentProps) => {
 	const withdrawalDate = new Date(lastRent.withdrawalDate);
 	const deliveryDate = new Date(lastRent.deliveryDate);
 	return (
-		<Table sx={{ backgroundColor: "#f4f4f4", borderRadius: "5px" }}>
+		<Table
+			sx={{
+				backgroundColor: "#f4f4f4",
+				borderRadius: "5px",
+			}}
+		>
 			<TableHead>
 				<TableRow sx={{ fontWeight: "500", fontSize: "16px" }}>
 					<TableCell>Nome do Aluno</TableCell>

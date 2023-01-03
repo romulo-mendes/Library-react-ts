@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { rentHistory } from "../../models/book";
 import { MainModalProps } from "../../models/modalState";
 import { getBook } from "../../services/books";
@@ -25,11 +25,18 @@ enum columnEnum {
 
 const RentHistory = ({ bookId, controlModal }: MainModalProps) => {
 	const [rent, setRent] = useState<rentHistory[]>();
+	const [filteredBook, setFilteredBook] = useState<rentHistory[]>();
+
 	const [studentNameFilter, setStudentNameFilter] = useState("");
 	const [classFilter, setClassFilter] = useState("");
 	const [withdrawalDateFilter, setWithdrawalDateFilter] = useState("");
 	const [deliveryDateFilter, setDeliveryDateFilter] = useState("");
-	const [filteredBook, setFilteredBook] = useState<rentHistory[]>();
+
+	const [sorting, setSorting] = useState<"asc" | "desc">("asc");
+	const [rotateStudentName, setRotateStudentName] = useState(0);
+	const [rotateClass, setRotateClass] = useState(0);
+	const [rotateWithdrawalDate, setRotateWithdrawalDate] = useState(0);
+	const [rotateDeliveryDate, setRotateDeliveryDate] = useState(0);
 
 	async function getBookAwait() {
 		const response = await getBook(bookId);
@@ -93,21 +100,39 @@ const RentHistory = ({ bookId, controlModal }: MainModalProps) => {
 
 	const handleSortClick = (column: columnEnum) => {
 		if (filteredBook) {
+			if (column === "studentName") {
+				setRotateStudentName(rotateStudentName + 180);
+			} else if (column === "class") {
+				setRotateClass(rotateClass + 180);
+			} else if (column === "withdrawalDate") {
+				setRotateWithdrawalDate(rotateWithdrawalDate + 180);
+			} else if (column === "deliveryDate") {
+				setRotateDeliveryDate(rotateDeliveryDate + 180);
+			}
 			const filteredBookCopy = [...filteredBook];
-			const sortRent = filteredBookCopy?.sort(function (a, b) {
-				return a[column] < b[column] ? -1 : a[column] > b[column] ? 1 : 0;
-			});
-			setFilteredBook(sortRent);
+			if (sorting === "asc") {
+				const sortRent = filteredBookCopy?.sort(function (a, b) {
+					return a[column] < b[column] ? -1 : a[column] > b[column] ? 1 : 0;
+				});
+				setFilteredBook(sortRent);
+				setSorting("desc");
+			}
+			if (sorting === "desc") {
+				const sortRent = filteredBookCopy?.sort(function (a, b) {
+					return a[column] > b[column] ? -1 : a[column] < b[column] ? 1 : 0;
+				});
+				setFilteredBook(sortRent);
+				setSorting("asc");
+			}
 		}
 	};
-
 	return (
 		<RentTableContainer>
 			<Closer onClick={() => controlModal("rentHistory", "main")} />
 			<Typography variant="h6" sx={{ mb: "29px" }}>
 				Histórico de empréstimos do livro
 			</Typography>
-			<Table sx={{ minWidth: 978 }}>
+			<Table sx={{ minWidth: 978, maxHeight: 1300 }}>
 				<TableHead>
 					<TableRow>
 						<TableCell>Nome do Aluno</TableCell>
@@ -130,7 +155,11 @@ const RentHistory = ({ bookId, controlModal }: MainModalProps) => {
 											sx={{ cursor: "pointer" }}
 											onClick={() => handleSortClick("studentName")}
 										>
-											<FilterListIcon />
+											<FilterListIcon
+												style={{
+													transform: `rotate(${rotateStudentName}deg)`,
+												}}
+											/>
 										</InputAdornment>
 									),
 								}}
@@ -150,7 +179,11 @@ const RentHistory = ({ bookId, controlModal }: MainModalProps) => {
 											sx={{ cursor: "pointer" }}
 											onClick={() => handleSortClick("class")}
 										>
-											<FilterListIcon />
+											<FilterListIcon
+												style={{
+													transform: `rotate(${rotateClass}deg)`,
+												}}
+											/>
 										</InputAdornment>
 									),
 								}}
@@ -170,7 +203,11 @@ const RentHistory = ({ bookId, controlModal }: MainModalProps) => {
 											sx={{ cursor: "pointer" }}
 											onClick={() => handleSortClick("withdrawalDate")}
 										>
-											<FilterListIcon />
+											<FilterListIcon
+												style={{
+													transform: `rotate(${rotateWithdrawalDate}deg)`,
+												}}
+											/>
 										</InputAdornment>
 									),
 								}}
@@ -190,7 +227,11 @@ const RentHistory = ({ bookId, controlModal }: MainModalProps) => {
 											sx={{ cursor: "pointer" }}
 											onClick={() => handleSortClick("deliveryDate")}
 										>
-											<FilterListIcon />
+											<FilterListIcon
+												style={{
+													transform: `rotate(${rotateDeliveryDate}deg)`,
+												}}
+											/>
 										</InputAdornment>
 									),
 								}}

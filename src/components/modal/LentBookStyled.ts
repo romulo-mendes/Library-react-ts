@@ -11,4 +11,17 @@ export const LentContainer = styled.div`
 			width: 272px;
 		}
 	}
+	@media (max-width: 800px) {
+		width: 500px;
+		form {
+			.button-lent {
+				align-self: center;
+				justify-self: center;
+			}
+		}
+	}
+	/* @media (max-width: 550px) {
+		width: auto;
+		
+	} */
 `;

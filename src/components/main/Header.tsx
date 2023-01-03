@@ -30,7 +30,7 @@ const Header = () => {
 					}}
 				>
 					<PersonIcon sx={{ color: "#ffc501" }} />
-					<p>{email}</p>
+					<p className="user-email">{email}</p>
 					<KeyboardArrowDownIcon />
 					{logout && (
 						<div onClick={(): void => userLogout()} className="logout">

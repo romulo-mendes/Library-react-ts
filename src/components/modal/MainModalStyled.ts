@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const RentHistoryContainer = styled.div`
+
 	.MuiTableCell-root {
 		color: #3e4756;
 		border: none;
@@ -60,6 +61,21 @@ export const MainModalContainer = styled.div`
 			.MuiButton-root {
 				padding: 16px 24px;
 			}
+		}
+	}
+
+	@media (max-width: 820px) {
+		.main-content {
+			flex-direction: column;
+			align-items: center;
+		}
+	}
+	@media (max-width: 420px) {
+		.text-side {
+			min-width: auto;
+		}
+		.buttons{
+			flex-direction: column;
 		}
 	}
 `;
