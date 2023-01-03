@@ -3,7 +3,7 @@ import Header from './components/main/Header';
 import Home from './pages/home';
 import Login from './pages/login';
 import Library from './pages/library';
-import { mainTheme } from './Styles/Theme';
+import { mainTheme } from './styles/Theme';
 import { ThemeProvider } from '@mui/material';
 import NewBook from './pages/newBook';
 import { LocalizationProvider } from '@mui/x-date-pickers';

@@ -3,7 +3,7 @@ import BooksProvider from '../../context/useBooks';
 import BooksLibrary from '../../components/booksLibrary/BooksLibrary';
 import { LibraryContainer } from './styles';
 import { ThemeProvider } from '@mui/material';
-import { searchInputTheme } from '../../Styles/Theme';
+import { searchInputTheme } from '../../styles/Theme';
 
 const Library = () => {
   return (

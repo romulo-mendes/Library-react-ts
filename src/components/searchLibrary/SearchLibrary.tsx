@@ -8,7 +8,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { FormContainer } from './SearchLibraryStyled';
-import { mainTheme } from '../../Styles/Theme';
+import { mainTheme } from '../../styles/Theme';
 
 const SearchLibrary = () => {
   const { setSearch, setCategory } = useBooks();
