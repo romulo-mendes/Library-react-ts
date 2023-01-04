@@ -46,7 +46,6 @@ const BooksLibrary = () => {
 
   return (
     <>
-      <BackTo back="Home" current="Biblioteca" />
       <Modal sx={{ overflow: 'scroll' }} open={open} onClose={handleClose}>
         <Box sx={style}>
           {modal.main && (

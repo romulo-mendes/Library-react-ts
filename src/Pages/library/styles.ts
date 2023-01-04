@@ -8,7 +8,6 @@ export const LibraryContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 95px;
-  gap: 76px;
+  gap: 48px;
   overflow-y: scroll;
 `;

@@ -118,171 +118,173 @@ const AllRentHistory = () => {
   return (
     <RentContainer>
       <BackTo back="Home" current="Histórico de Empréstimos" />
-      <Table sx={{ minWidth: '1270px', minHeight: '500px' }}>
-        <TableHead>
-          <TableRow>
-            <TableCell>Aluno</TableCell>
-            <TableCell>Turma</TableCell>
-            <TableCell>Livro</TableCell>
-            <TableCell>Data de Retirada</TableCell>
-            <TableCell>Data de Entrega</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>
-              <TextField
-                value={studentNameFilter}
-                name="studentName"
-                onChange={e => setStudentNameFilter(e.target.value)}
-                variant="standard"
-                sx={{ width: '105px' }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment
-                      position="start"
-                      sx={{ cursor: 'pointer' }}
-                      onClick={() => handleSortClick(columnEnum.STUDENTNAME)}
-                    >
-                      {columnSort === 'studentName' ? (
-                        <FilterListIcon
-                          style={{
-                            transform: `rotate(${sorting === 'desc' ? 0 : 180}deg)`,
-                          }}
-                        />
-                      ) : (
-                        <FilterListIcon />
-                      )}
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                value={classFilter}
-                name="class"
-                onChange={e => setClassFilter(e.target.value)}
-                variant="standard"
-                sx={{ width: '105px' }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment
-                      position="start"
-                      sx={{ cursor: 'pointer' }}
-                      onClick={() => handleSortClick(columnEnum.CLASS)}
-                    >
-                      {columnSort === 'class' ? (
-                        <FilterListIcon
-                          style={{
-                            transform: `rotate(${sorting === 'desc' ? 0 : 180}deg)`,
-                          }}
-                        />
-                      ) : (
-                        <FilterListIcon />
-                      )}
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                value={tittleFilter}
-                name="tittle"
-                onChange={e => setTittleFilter(e.target.value)}
-                variant="standard"
-                sx={{ width: '105px' }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment
-                      position="start"
-                      sx={{ cursor: 'pointer' }}
-                      onClick={() => handleSortClick(columnEnum.TITLLE)}
-                    >
-                      {columnSort === 'tittle' ? (
-                        <FilterListIcon
-                          style={{
-                            transform: `rotate(${sorting === 'desc' ? 0 : 180}deg)`,
-                          }}
-                        />
-                      ) : (
-                        <FilterListIcon />
-                      )}
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                value={withdrawalDateFilter}
-                name="withdrawalDate"
-                onChange={e => setWithdrawalDateFilter(e.target.value)}
-                variant="standard"
-                sx={{ width: '105px' }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment
-                      position="start"
-                      sx={{ cursor: 'pointer' }}
-                      onClick={() => handleSortClick(columnEnum.WITHDRAWALDATE)}
-                    >
-                      {columnSort === 'withdrawalDate' ? (
-                        <FilterListIcon
-                          style={{
-                            transform: `rotate(${sorting === 'desc' ? 0 : 180}deg)`,
-                          }}
-                        />
-                      ) : (
-                        <FilterListIcon />
-                      )}
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                value={deliveryDateFilter}
-                name="deliveryDate"
-                onChange={e => setDeliveryDateFilter(e.target.value)}
-                variant="standard"
-                sx={{ width: '105px' }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment
-                      position="start"
-                      sx={{ cursor: 'pointer' }}
-                      onClick={() => handleSortClick(columnEnum.DELIVERYDATE)}
-                    >
-                      {columnSort === 'deliveryDate' ? (
-                        <FilterListIcon
-                          style={{
-                            transform: `rotate(${sorting === 'desc' ? 0 : 180}deg)`,
-                          }}
-                        />
-                      ) : (
-                        <FilterListIcon />
-                      )}
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {filteredBook &&
-            filteredBook.map((row, index) => (
-              <TableRow key={index}>
-                <TableCell>{row.studentName}</TableCell>
-                <TableCell>{row.class}</TableCell>
-                <TableCell>{row.tittle}</TableCell>
-                <TableCell>{new Date(row.withdrawalDate).toLocaleDateString('pt-BR')}</TableCell>
-                <TableCell>{new Date(row.deliveryDate).toLocaleDateString('pt-BR')}</TableCell>
-              </TableRow>
-            ))}
-        </TableBody>
-      </Table>
+      <div className="table-container">
+        <Table sx={{ minWidth: '1270px', minHeight: '500px' }}>
+          <TableHead>
+            <TableRow>
+              <TableCell>Aluno</TableCell>
+              <TableCell>Turma</TableCell>
+              <TableCell>Livro</TableCell>
+              <TableCell>Data de Retirada</TableCell>
+              <TableCell>Data de Entrega</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>
+                <TextField
+                  value={studentNameFilter}
+                  name="studentName"
+                  onChange={e => setStudentNameFilter(e.target.value)}
+                  variant="standard"
+                  sx={{ width: '105px' }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment
+                        position="start"
+                        sx={{ cursor: 'pointer' }}
+                        onClick={() => handleSortClick(columnEnum.STUDENTNAME)}
+                      >
+                        {columnSort === 'studentName' ? (
+                          <FilterListIcon
+                            style={{
+                              transform: `rotate(${sorting === 'desc' ? 0 : 180}deg)`,
+                            }}
+                          />
+                        ) : (
+                          <FilterListIcon />
+                        )}
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </TableCell>
+              <TableCell>
+                <TextField
+                  value={classFilter}
+                  name="class"
+                  onChange={e => setClassFilter(e.target.value)}
+                  variant="standard"
+                  sx={{ width: '105px' }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment
+                        position="start"
+                        sx={{ cursor: 'pointer' }}
+                        onClick={() => handleSortClick(columnEnum.CLASS)}
+                      >
+                        {columnSort === 'class' ? (
+                          <FilterListIcon
+                            style={{
+                              transform: `rotate(${sorting === 'desc' ? 0 : 180}deg)`,
+                            }}
+                          />
+                        ) : (
+                          <FilterListIcon />
+                        )}
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </TableCell>
+              <TableCell>
+                <TextField
+                  value={tittleFilter}
+                  name="tittle"
+                  onChange={e => setTittleFilter(e.target.value)}
+                  variant="standard"
+                  sx={{ width: '105px' }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment
+                        position="start"
+                        sx={{ cursor: 'pointer' }}
+                        onClick={() => handleSortClick(columnEnum.TITLLE)}
+                      >
+                        {columnSort === 'tittle' ? (
+                          <FilterListIcon
+                            style={{
+                              transform: `rotate(${sorting === 'desc' ? 0 : 180}deg)`,
+                            }}
+                          />
+                        ) : (
+                          <FilterListIcon />
+                        )}
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </TableCell>
+              <TableCell>
+                <TextField
+                  value={withdrawalDateFilter}
+                  name="withdrawalDate"
+                  onChange={e => setWithdrawalDateFilter(e.target.value)}
+                  variant="standard"
+                  sx={{ width: '105px' }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment
+                        position="start"
+                        sx={{ cursor: 'pointer' }}
+                        onClick={() => handleSortClick(columnEnum.WITHDRAWALDATE)}
+                      >
+                        {columnSort === 'withdrawalDate' ? (
+                          <FilterListIcon
+                            style={{
+                              transform: `rotate(${sorting === 'desc' ? 0 : 180}deg)`,
+                            }}
+                          />
+                        ) : (
+                          <FilterListIcon />
+                        )}
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </TableCell>
+              <TableCell>
+                <TextField
+                  value={deliveryDateFilter}
+                  name="deliveryDate"
+                  onChange={e => setDeliveryDateFilter(e.target.value)}
+                  variant="standard"
+                  sx={{ width: '105px' }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment
+                        position="start"
+                        sx={{ cursor: 'pointer' }}
+                        onClick={() => handleSortClick(columnEnum.DELIVERYDATE)}
+                      >
+                        {columnSort === 'deliveryDate' ? (
+                          <FilterListIcon
+                            style={{
+                              transform: `rotate(${sorting === 'desc' ? 0 : 180}deg)`,
+                            }}
+                          />
+                        ) : (
+                          <FilterListIcon />
+                        )}
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredBook &&
+              filteredBook.map((row, index) => (
+                <TableRow key={index}>
+                  <TableCell>{row.studentName}</TableCell>
+                  <TableCell>{row.class}</TableCell>
+                  <TableCell>{row.tittle}</TableCell>
+                  <TableCell>{new Date(row.withdrawalDate).toLocaleDateString('pt-BR')}</TableCell>
+                  <TableCell>{new Date(row.deliveryDate).toLocaleDateString('pt-BR')}</TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </div>
     </RentContainer>
   );
 };

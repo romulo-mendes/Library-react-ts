@@ -2,10 +2,8 @@ import styled from 'styled-components';
 
 export const BackToContainer = styled.div`
   background-color: #fff;
-  position: absolute;
+  align-self: flex-start;
   margin: 24px;
-  top: 24px;
-  left: 24px;
   cursor: pointer;
   display: flex;
   align-items: center;

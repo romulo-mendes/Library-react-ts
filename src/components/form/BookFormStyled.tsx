@@ -16,7 +16,6 @@ export const Form = styled.form`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
   flex-direction: column;
   .input-container {
     display: flex;
@@ -84,9 +83,7 @@ export const Form = styled.form`
       width: auto;
       flex-direction: column;
     }
-    .input-container {
-      margin-top: 350px;
-    }
+    
   }
   .input-main {
     display: flex;

@@ -6,7 +6,11 @@ export const EditBookContainer = styled.div`
   border-radius: 5px;
   background-color: #fff;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 113px;
   align-items: center;
   overflow: auto;
+  @media (max-width: 805px) {
+    gap: 10px;
+  }
 `;

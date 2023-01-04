@@ -6,7 +6,11 @@ export const NewBookContainer = styled.div`
   border-radius: 5px;
   background-color: #fff;
   display: flex;
-  justify-content: center;
   align-items: center;
   overflow: auto;
+  flex-direction: column;
+  gap: 117px;
+  @media (max-width: 805px) {
+    gap: 10px;
+  }
 `;
