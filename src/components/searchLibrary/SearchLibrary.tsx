@@ -63,10 +63,10 @@ const SearchLibrary = () => {
             label="Filtrar"
             onChange={e => setCategorySelect(e.target.value)}
           >
-            <MenuItem value="tittle">Titulo</MenuItem>
-            <MenuItem value="author">Autor</MenuItem>
-            <MenuItem value="genre">Gênero</MenuItem>
-            <MenuItem value="systemEntryDate">Data de entrada</MenuItem>
+            <MenuItem value={categoryEnum.TITTLE}>Titulo</MenuItem>
+            <MenuItem value={categoryEnum.AUTHOR}>Autor</MenuItem>
+            <MenuItem value={categoryEnum.GENRE}>Gênero</MenuItem>
+            <MenuItem value={categoryEnum.SYSTEMENTRYDATE}>Data de entrada</MenuItem>
           </Select>
         </FormControl>
       </div>
