@@ -18,8 +18,11 @@ const SearchLibrary = () => {
     <FormContainer
       onSubmit={e => {
         e.preventDefault();
-        if (categorySelect === '') setCategorySelect('tittle');
-        setCategory(categorySelect as categoryEnum);
+        if (categorySelect === '') {
+          setCategory(categoryEnum.TITTLE);
+        } else {
+          setCategory(categorySelect as categoryEnum);
+        }
         setSearch(searchInput);
       }}
     >
