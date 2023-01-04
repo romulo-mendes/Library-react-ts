@@ -1,5 +1,5 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import React, { createContext, useContext, useMemo, useState } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { Book } from '../models/book';
 import { getAllBooks } from '../services/books';
 
@@ -29,7 +29,7 @@ function BooksProvider({ children }: BooksProviderProp) {
   const [books, setBooks] = useState<Book[]>();
   const [filteredBooks, setFilteredBooks] = useState<Book[]>();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const getBooks = async () => {
       const booksData = await getAllBooks();
       setBooks(booksData);

@@ -107,7 +107,7 @@ const AllRentHistory = () => {
       const filteredBookCopy = [...filteredBook];
 
       const sortRent = filteredBookCopy?.sort(function (a, b) {
-        if (sortingNext === 'asc') return a[column] < b[column] ? -1 : a[column] > b[column] ? 1 : 0;
+        if (sortingNext === 'desc') return a[column] < b[column] ? -1 : a[column] > b[column] ? 1 : 0;
 
         return a[column] > b[column] ? -1 : a[column] < b[column] ? 1 : 0;
       });
@@ -146,7 +146,7 @@ const AllRentHistory = () => {
                         {columnSort === 'studentName' ? (
                           <FilterListIcon
                             style={{
-                              transform: `rotate(${sorting === 'desc' ? 0 : 180}deg)`,
+                              transform: `rotate(${sorting === 'asc' ? 0 : 180}deg)`,
                             }}
                           />
                         ) : (
@@ -174,7 +174,7 @@ const AllRentHistory = () => {
                         {columnSort === 'class' ? (
                           <FilterListIcon
                             style={{
-                              transform: `rotate(${sorting === 'desc' ? 0 : 180}deg)`,
+                              transform: `rotate(${sorting === 'asc' ? 0 : 180}deg)`,
                             }}
                           />
                         ) : (
@@ -202,7 +202,7 @@ const AllRentHistory = () => {
                         {columnSort === 'tittle' ? (
                           <FilterListIcon
                             style={{
-                              transform: `rotate(${sorting === 'desc' ? 0 : 180}deg)`,
+                              transform: `rotate(${sorting === 'asc' ? 0 : 180}deg)`,
                             }}
                           />
                         ) : (
@@ -230,7 +230,7 @@ const AllRentHistory = () => {
                         {columnSort === 'withdrawalDate' ? (
                           <FilterListIcon
                             style={{
-                              transform: `rotate(${sorting === 'desc' ? 0 : 180}deg)`,
+                              transform: `rotate(${sorting === 'asc' ? 0 : 180}deg)`,
                             }}
                           />
                         ) : (
@@ -258,7 +258,7 @@ const AllRentHistory = () => {
                         {columnSort === 'deliveryDate' ? (
                           <FilterListIcon
                             style={{
-                              transform: `rotate(${sorting === 'desc' ? 0 : 180}deg)`,
+                              transform: `rotate(${sorting === 'asc' ? 0 : 180}deg)`,
                             }}
                           />
                         ) : (
