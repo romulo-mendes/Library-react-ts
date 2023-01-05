@@ -6,11 +6,13 @@ import { BackToContainer } from './BackToStyled';
 type BackToProps = {
   back: string;
   current: string;
+  to?: string;
 };
-const BackTo: FunctionComponent<BackToProps> = ({ back, current }) => {
+const BackTo: FunctionComponent<BackToProps> = ({ back, current, to }) => {
   const navigate = useNavigate();
   function handleClick() {
-    navigate(-1);
+    if (to) return navigate(to);
+    navigate('/');
   }
 
   return (

@@ -7,7 +7,7 @@ export const EditBookContainer = styled.div`
   background-color: #fff;
   display: flex;
   flex-direction: column;
-  gap: 113px;
+  gap: 110px;
   align-items: center;
   overflow: auto;
   @media (max-width: 805px) {

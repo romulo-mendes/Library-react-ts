@@ -10,12 +10,13 @@ import { TModal } from '../../models/modalState';
 import RentHistory from '../modal/RentHistory';
 import Inactivate from '../modal/Inactivate';
 import Closer from '../modal/Closer';
-import BackTo from '../main/BackTo';
 import { CardsContainer, style } from './BooksLibraryStyled';
+import { useLocation } from 'react-router-dom';
 
 const BooksLibrary = () => {
+  const { state } = useLocation();
   const { filteredBooks } = useBooks();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(state ? true : false);
   const standardModal = {
     main: true,
     lent: false,
@@ -23,7 +24,7 @@ const BooksLibrary = () => {
     inactive: false,
   };
   const [modal, setModal] = useState(standardModal);
-  const [bookId, setBookId] = useState('');
+  const [bookId, setBookId] = useState(state ? state.id : '');
   const handleOpen = () => setOpen(true);
 
   const handleClose = () => {

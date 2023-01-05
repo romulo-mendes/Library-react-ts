@@ -72,15 +72,17 @@ const BookForm = () => {
       if (!values.id) {
         values.id = self.crypto.randomUUID();
       }
-      values.image = img;
-      values.systemEntryDate = new Date(values.systemEntryDate);
+      if (values.systemEntryDate !== null) {
+        values.image = img;
+        values.systemEntryDate = new Date(values.systemEntryDate);
 
-      if (bookId) {
-        editBook(bookId, values);
-        navigate(-1);
-      } else {
-        postBook(values);
-        navigate(-1);
+        if (bookId) {
+          editBook(bookId, values);
+        } else {
+          postBook(values);
+        }
+        alert('Livro cadastrado com sucesso!');
+        navigate('/biblioteca', { state: { id: bookId } });
       }
     },
   });
@@ -161,6 +163,7 @@ const BookForm = () => {
                 <MenuItem value="Historia">Historia</MenuItem>
                 <MenuItem value="Finanças">Finanças</MenuItem>
                 <MenuItem value="Web Marketing">Web Marketing</MenuItem>
+                <MenuItem value="Ficção Cientifica">Ficção Cientifica</MenuItem>
               </Select>
             </FormControl>
             <DatePicker
@@ -183,17 +186,11 @@ const BookForm = () => {
         </div>
       </div>
       <div className="div-button">
-        <Button
-          sx={{ color: 'black' }}
-          size="large"
-          onClick={() => {
-            navigate(-1);
-          }}
-          variant="outlined"
-          fullWidth
-        >
-          CANCELAR
-        </Button>
+        <a rel="stylesheet" href={bookId ? `/biblioteca/${bookId}` : '/biblioteca'}>
+          <Button sx={{ color: 'black' }} size="large" variant="outlined" fullWidth>
+            CANCELAR
+          </Button>
+        </a>
         <Button size="large" color="secondary" variant="contained" type="submit" fullWidth>
           SALVAR
         </Button>

@@ -27,7 +27,6 @@ function BooksProvider({ children }: BooksProviderProp) {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState<categoryEnum>();
   const [books, setBooks] = useState<Book[]>();
-  const [filteredBooks, setFilteredBooks] = useState<Book[]>();
 
   useEffect(() => {
     const getBooks = async () => {
@@ -37,20 +36,17 @@ function BooksProvider({ children }: BooksProviderProp) {
     getBooks();
   }, []);
 
-  React.useEffect(() => {
-    setFilteredBooks(
-      search && category
-        ? books?.filter((book: Book) =>
-            book[category]
-              .toString()
-              .normalize('NFD')
-              .replace(/[\u0300-\u036f]/g, '')
-              .toLowerCase()
-              .includes(search.toLowerCase())
-          )
-        : books
-    );
-  }, [search, category, books]);
+  const filteredBooks =
+    search && category
+      ? books?.filter((book: Book) =>
+          book[category]
+            .toString()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase()
+            .includes(search.toLowerCase())
+        )
+      : books;
 
   const providerData = useMemo(
     () => ({ search, setSearch, category, setCategory, filteredBooks }),

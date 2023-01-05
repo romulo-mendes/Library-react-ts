@@ -44,6 +44,7 @@ export const Form = styled.form`
       color: transparent;
       width: 100%;
       height: 100%;
+      cursor: pointer;
     }
     input::file-selector-button {
       display: none;
@@ -83,7 +84,6 @@ export const Form = styled.form`
       width: auto;
       flex-direction: column;
     }
-    
   }
   .input-main {
     display: flex;
