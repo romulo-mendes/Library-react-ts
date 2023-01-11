@@ -65,9 +65,7 @@ export const Form = styled.form`
   }
   @media (max-width: 800px) {
     padding-bottom: 50px;
-    .input-container {
-      margin-top: 250px;
-    }
+    justify-content: flex-start;
     .input-main {
       flex-direction: column;
     }
