@@ -33,6 +33,7 @@ const SearchLibrary = () => {
             placeholder="Pesquisar livro..."
             value={searchInput}
             onChange={e => setSearchInput(e.target.value)}
+            type={categorySelect === categoryEnum.SYSTEMENTRYDATE ? 'date' : 'text'}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
