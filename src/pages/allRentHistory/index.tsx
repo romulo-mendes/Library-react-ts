@@ -1,9 +1,10 @@
 import { InputAdornment, Table, TableBody, TableCell, TableHead, TableRow, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { getAllBooks } from '../../services/books';
+import { getAllBooks, getAllRent } from '../../services/books';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { RentContainer } from './styles';
 import BackTo from '../../components/main/BackTo';
+import { allRentType } from '../../models/book';
 
 type RentType = {
   studentName: string;
@@ -22,8 +23,8 @@ enum columnEnum {
 }
 
 const AllRentHistory = () => {
-  const [allRents, setAllRents] = useState<RentType[]>([]);
-  const [filteredBook, setFilteredBook] = useState<RentType[]>();
+  const [allRents, setAllRents] = useState<allRentType[]>([]);
+  const [filteredBook, setFilteredBook] = useState<allRentType[]>();
 
   const [studentNameFilter, setStudentNameFilter] = useState('');
   const [classFilter, setClassFilter] = useState('');
@@ -34,31 +35,15 @@ const AllRentHistory = () => {
   const [sorting, setSorting] = useState<'asc' | 'desc'>('asc');
   const [columnSort, setColumnSort] = useState('');
 
+  async function AsyncGet() {
+    const response = await getAllRent();
+    console.log(response);
+    setAllRents(response.rentHistory);
+    setFilteredBook(response.rentHistory);
+  }
+
   useEffect(() => {
-    getAllBooks().then(books => {
-      setAllRents(
-        books.flatMap(book =>
-          book.rentHistory.map(history => ({
-            studentName: history.studentName,
-            class: history.class,
-            tittle: book.tittle,
-            withdrawalDate: history.withdrawalDate,
-            deliveryDate: history.deliveryDate,
-          }))
-        )
-      );
-      setFilteredBook(
-        books.flatMap(book =>
-          book.rentHistory.map(history => ({
-            studentName: history.studentName,
-            class: history.class,
-            tittle: book.tittle,
-            withdrawalDate: history.withdrawalDate,
-            deliveryDate: history.deliveryDate,
-          }))
-        )
-      );
-    });
+    AsyncGet();
   }, []);
 
   const simplify = (str: string) =>

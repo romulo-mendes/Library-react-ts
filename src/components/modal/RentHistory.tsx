@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { rentHistory } from '../../models/book';
 import { MainModalProps } from '../../models/modalState';
-import { getBook } from '../../services/books';
+import { getRent } from '../../services/books';
 import { Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import InputAdornment from '@mui/material/InputAdornment';
 import Closer from './Closer';
-import { RentTableContainer } from './RentHsitoryStyled';
+import { RentTableContainer } from './RentHistoryStyled';
 
 enum columnEnum {
   STUDENTNAME = 'studentName',
@@ -28,7 +28,7 @@ const RentHistory = ({ bookId, controlModal }: MainModalProps) => {
   const [columnSort, setColumnSort] = useState('');
 
   async function getBookAwait() {
-    const response = await getBook(bookId);
+    const response = await getRent(bookId);
     setRent(response.rentHistory);
     setFilteredBook(response.rentHistory);
   }

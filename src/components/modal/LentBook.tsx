@@ -4,7 +4,7 @@ import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { DatePicker } from '@mui/x-date-pickers';
-import { getBook, editBook } from '../../services/books';
+import { getBook, editBook, lentBook } from '../../services/books';
 import { Book } from '../../models/book';
 import { useEffect, useState } from 'react';
 import Closer from './Closer';
@@ -43,11 +43,8 @@ const LentBook = ({ controlModal, bookId }: MainModalProps) => {
             withdrawalDate: new Date(values.withdrawalDate),
             deliveryDate: new Date(values.deliveryDate),
           };
-          if (book) {
-            book.rentHistory.push(rentHistory);
-            await editBook(bookId, book);
-            controlModal && controlModal('lent', 'main');
-          }
+          await lentBook(bookId, rentHistory);
+          controlModal && controlModal('lent', 'main');
         } catch (error) {
           console.error(error);
         }

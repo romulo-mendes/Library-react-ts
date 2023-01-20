@@ -1,31 +1,17 @@
 import { Button, TextField, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
-import useStateBook from '../../hooks/useStateBook';
+import { useState } from 'react';
 import { MainModalProps } from '../../models/modalState';
-import { editBook, getBook } from '../../services/books';
+import { changeStatus } from '../../services/books';
 import Closer from './Closer';
 import { InactiveContainer } from './InactivateStyled';
 
 const Inactivate = ({ bookId, controlModal }: MainModalProps) => {
   const [value, setValue] = useState('');
-  const [book, setBook] = useStateBook();
-
-  async function getBookAsync() {
-    const response = await getBook(bookId);
-    setBook(response);
-  }
-
-  useEffect(() => {
-    getBookAsync();
-  }, []);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const bookEdited = {
-      ...book,
-      status: { ...book.status, description: value, isActive: false },
-    };
-    editBook(bookId, bookEdited);
+    const bookStatus = { isActive: false, description: value };
+    changeStatus(bookId, bookStatus);
     controlModal('inactive', 'main');
   }
 

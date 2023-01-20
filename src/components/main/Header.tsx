@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ReactComponent as Logo } from '../../assets/logo.svg';
 import PersonIcon from '@mui/icons-material/Person';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { HeaderNav, MainContainer, UserContainer } from './HeaderStyled';
-import { Menu, MenuItem } from '@mui/material';
 
 const Header = () => {
   const [logout, setLogout] = useState(false);

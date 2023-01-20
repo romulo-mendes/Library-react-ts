@@ -40,7 +40,7 @@ export const UserContainer = styled.div`
     top: 0;
     padding: 16px;
     margin-top: 46px;
-    z-index: 2;
+    z-index: 1;
   }
   @media (max-width: 420px) {
     .user-email {

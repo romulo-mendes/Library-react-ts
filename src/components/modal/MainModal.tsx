@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { rentHistory } from '../../models/book';
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import { MainModalProps } from '../../models/modalState';
-import { editBook, getBook } from '../../services/books';
+import { changeStatus, editBook, getBook, returnLentBook } from '../../services/books';
 import IsRent from './IsRent';
 import { useNavigate } from 'react-router-dom';
 import useStateBook from '../../hooks/useStateBook';
@@ -27,35 +27,36 @@ const MainModal = ({ bookId, controlModal }: MainModalProps) => {
   }, [render]);
 
   useEffect(() => {
-    if (book && book.status.isActive === false) {
-      return setIsActive(false);
-    } else {
-      setIsActive(true);
-    }
-    if (book && book.rentHistory.length) {
-      const currentRent = book.rentHistory[book.rentHistory.length - 1];
-      if (currentRent && new Date(currentRent.deliveryDate) > new Date()) {
-        setLastRent(currentRent);
-        setIsRent(true);
+    if (book) {
+      if (!book.status.isActive) {
+        return setIsActive(false);
       } else {
-        setIsRent(false);
+        setIsActive(true);
+      }
+      if (book && book.rentHistory.length) {
+        const currentRent = book.rentHistory[book.rentHistory.length - 1];
+        if (currentRent && new Date(currentRent.deliveryDate) > new Date()) {
+          setLastRent(currentRent);
+          setIsRent(true);
+        } else {
+          setIsRent(false);
+        }
       }
     }
   }, [book]);
+
   async function returnBook() {
     if (book) {
       book.rentHistory[book.rentHistory.length - 1].deliveryDate = new Date();
-      const editedBook = await editBook(bookId, book);
-      setBook(editedBook);
+      const editedBook = await returnLentBook(bookId, book.rentHistory[book.rentHistory.length - 1]);
+      setBook(editedBook.book);
     }
   }
 
   function activeBook() {
     if (book) {
-      editBook(bookId, {
-        ...book,
-        status: { ...book.status, description: '', isActive: true },
-      });
+      const bookStatus = { isActive: true, description: '' };
+      changeStatus(bookId, bookStatus);
       setRender(!render);
     }
   }

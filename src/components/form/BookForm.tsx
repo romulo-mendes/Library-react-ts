@@ -77,12 +77,17 @@ const BookForm = () => {
         values.systemEntryDate = new Date(values.systemEntryDate);
 
         if (bookId) {
-          editBook(bookId, values);
+          try {
+            await editBook(bookId, values);
+            alert('Livro editado com sucesso!');
+            navigate('/biblioteca', { state: { id: bookId } });
+          } catch (error) {
+            console.error(error);
+          }
         } else {
           postBook(values);
+          alert('Livro cadastrado com sucesso!');
         }
-        alert('Livro cadastrado com sucesso!');
-        navigate('/biblioteca', { state: { id: bookId } });
       }
     },
   });

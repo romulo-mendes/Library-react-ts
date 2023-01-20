@@ -7,7 +7,7 @@ import LockTwoToneIcon from '@mui/icons-material/LockTwoTone';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { getUser } from '../../services/auth';
+import { getUser, userLogin } from '../../services/auth';
 import { FormContainer } from './LoginFormStyled';
 
 const validationSchema = yup.object({
@@ -26,17 +26,23 @@ const LoginForm = () => {
       password: '',
     },
     validationSchema: validationSchema,
-    onSubmit: values => {
+    onSubmit: async values => {
       setErr('');
-      getUser(values.email, values.password)
-        .then(response => {
-          localStorage.setItem('email', response[0].email);
-          navigate('/');
-        })
-        .catch(() => {
-          setErr('Login ou senha inválido!');
-          setOpen(true);
-        });
+      const user = {
+        email: values.email,
+        password: values.password,
+      };
+      const response = await userLogin(user);
+      if (response.status === 200) {
+        localStorage.setItem('email', values.email);
+        navigate('/');
+      } else if (response === 401) {
+        setErr('Login ou senha inválido!');
+        setOpen(true);
+      } else {
+        setErr('Erro no servidor, tente novamente mais tarde!');
+        setOpen(true);
+      }
     },
   });
   return (
