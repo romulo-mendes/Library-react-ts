@@ -7,7 +7,7 @@ import LockTwoToneIcon from '@mui/icons-material/LockTwoTone';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { getUser, userLogin } from '../../services/auth';
+import { userLogin } from '../../services/auth';
 import { FormContainer } from './LoginFormStyled';
 
 const validationSchema = yup.object({
