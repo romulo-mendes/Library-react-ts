@@ -13,3 +13,14 @@ export const userLogin = async (user: UserType) => {
     }
   }
 };
+
+export const validateToken = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await api.post('validate-token', { token });
+    if (response.status === 200) return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};

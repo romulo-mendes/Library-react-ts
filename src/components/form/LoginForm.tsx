@@ -34,6 +34,8 @@ const LoginForm = () => {
       };
       const response = await userLogin(user);
       if (response.status === 200) {
+        console.log(response);
+        localStorage.setItem('token', response.data);
         localStorage.setItem('email', values.email);
         navigate('/');
       } else if (response === 401) {

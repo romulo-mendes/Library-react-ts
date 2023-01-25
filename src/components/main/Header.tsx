@@ -4,14 +4,23 @@ import PersonIcon from '@mui/icons-material/Person';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { HeaderNav, MainContainer, UserContainer } from './HeaderStyled';
+import { validateToken } from '../../services/auth';
 
 const Header = () => {
   const [logout, setLogout] = useState(false);
   const navigate = useNavigate();
   const email = localStorage.getItem('email');
 
+  async function asyncValidateToken() {
+    const isValidToken = await validateToken();
+    if (!isValidToken) {
+      alert('Token inválido ou expirado, tente fazer login novamente');
+      navigate('/login');
+    }
+  }
+
   useEffect(() => {
-    if (!email) navigate('/login');
+    asyncValidateToken();
   }, []);
 
   function userLogout(): void {
