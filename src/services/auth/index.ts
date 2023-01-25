@@ -5,7 +5,7 @@ export const userLogin = async (user: UserType) => {
   try {
     const response = await api.post(`user`, user);
     return response;
-  } catch (error) {
+  } catch (error: any) {
     if (error.response.status === 401) {
       return error.response.status;
     } else {
@@ -16,11 +16,15 @@ export const userLogin = async (user: UserType) => {
 
 export const validateToken = async () => {
   try {
-    const token = localStorage.getItem('token');
-    const response = await api.post('validate-token', { token });
+    const response = await api.get('validate-token', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
     if (response.status === 200) return true;
+    else return false;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return false;
   }
 };
