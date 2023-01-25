@@ -13,7 +13,6 @@ const Header = () => {
 
   async function asyncValidateToken() {
     const isValidToken = await validateToken();
-    console.log(isValidToken);
     if (!isValidToken) {
       alert('Token inválido ou expirado, tente fazer login novamente');
       navigate('/login');
