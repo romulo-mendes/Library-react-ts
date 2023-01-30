@@ -37,7 +37,6 @@ const AllRentHistory = () => {
 
   async function AsyncGet() {
     const response = await getAllRent();
-    console.log(response);
     setAllRents(response.rentHistory);
     setFilteredBook(response.rentHistory);
   }

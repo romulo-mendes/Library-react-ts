@@ -7,11 +7,7 @@ export const postBook = async (book: Book) => {
 };
 
 export const getAllBooks = async (): Promise<Book[]> => {
-  const response = await api.get(`books`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  });
+  const response = await api.get(`books`);
   return response.data;
 };
 
