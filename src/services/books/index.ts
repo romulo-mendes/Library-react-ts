@@ -22,7 +22,7 @@ export const editBook = async (bookId: string, book: Book) => {
 };
 
 export const lentBook = async (bookId: string, rent: rentHistory) => {
-  const response = await api.put(`books/${bookId}/rent`, rent);
+  const response = await api.post(`books/${bookId}/rent`, rent);
   return response.data;
 };
 

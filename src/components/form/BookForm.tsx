@@ -191,11 +191,17 @@ const BookForm = () => {
         </div>
       </div>
       <div className="div-button">
-        <a rel="stylesheet" href={bookId ? `/biblioteca/${bookId}` : '/biblioteca'}>
-          <Button sx={{ color: 'black' }} size="large" variant="outlined" fullWidth>
-            CANCELAR
-          </Button>
-        </a>
+        <Button
+          sx={{ color: 'black' }}
+          size="large"
+          variant="outlined"
+          onClick={() => {
+            bookId ? navigate('/biblioteca', { state: { id: bookId } }) : navigate('/biblioteca');
+          }}
+          fullWidth
+        >
+          CANCELAR
+        </Button>
         <Button size="large" color="secondary" variant="contained" type="submit" fullWidth>
           SALVAR
         </Button>
